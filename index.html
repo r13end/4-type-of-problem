@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>İlişki Güvenliği ve Risk Değerlendirme Testi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-slate-950 text-slate-100 min-h-screen">
+    <header class="sticky top-0 z-40 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
+      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-3">
+        <p class="text-xs text-slate-300 sm:text-sm">Gizlilik modu: Yanıtlar yalnızca bu oturumda tutulur.</p>
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="quickExitBtn" class="rounded-lg bg-rose-600 px-3 py-2 text-xs font-bold uppercase tracking-wide text-white hover:bg-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-300 sm:text-sm">
+            Hızlı Çıkış (ESC)
+          </button>
+          <a href="https://www.egm.gov.tr/kades" target="_blank" rel="noopener noreferrer" class="rounded-lg bg-indigo-600 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-500 sm:text-sm">KADES İndir</a>
+          <a href="tel:183" class="rounded-lg bg-amber-500 px-3 py-2 text-xs font-semibold text-slate-950 hover:bg-amber-400 sm:text-sm">Alo 183</a>
+          <a href="tel:112" class="rounded-lg bg-emerald-500 px-3 py-2 text-xs font-semibold text-slate-950 hover:bg-emerald-400 sm:text-sm">112 Acil</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-5xl px-4 py-8">
+      <section id="landing" class="space-y-6">
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 shadow-lg">
+          <h1 class="text-2xl font-bold text-rose-300 sm:text-3xl">İlişkinizde Güvende misiniz?</h1>
+          <p class="mt-3 text-sm text-slate-200 sm:text-base">Bu anonim değerlendirme, ilişkideki risk sinyallerini fark etmenize yardımcı olur. Yanıtlarınız cihazınızda tutulmaz, sayfa yenilenince tamamen silinir.</p>
+          <button id="startBtn" class="mt-5 rounded-xl bg-rose-600 px-5 py-3 font-semibold text-white hover:bg-rose-500">Anonim Teste Başla</button>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <article class="rounded-xl border border-slate-800 bg-slate-900 p-4">
+            <h2 class="font-semibold text-fuchsia-300">Narsist</h2>
+            <p class="mt-2 text-sm text-slate-300">Üstünlük, küçümseme ve sömürü davranışlarıyla kontrol kurmaya çalışır.</p>
+          </article>
+          <article class="rounded-xl border border-slate-800 bg-slate-900 p-4">
+            <h2 class="font-semibold text-cyan-300">Dengesiz</h2>
+            <p class="mt-2 text-sm text-slate-300">Terk edilme korkusu ile yoğun iniş çıkışlar ve duygusal şantaj gösterebilir.</p>
+          </article>
+          <article class="rounded-xl border border-slate-800 bg-slate-900 p-4">
+            <h2 class="font-semibold text-amber-300">Paranoyak</h2>
+            <p class="mt-2 text-sm text-slate-300">Aşırı kuşkuculuk, izleme, kıskançlık ve sosyal tecrit davranışları sergileyebilir.</p>
+          </article>
+          <article class="rounded-xl border border-slate-800 bg-slate-900 p-4">
+            <h2 class="font-semibold text-rose-300">Yırtıcı</h2>
+            <p class="mt-2 text-sm text-slate-300">Vicdan yoksunluğu, tehdit ve tahakküm ile doğrudan hayati risk oluşturabilir.</p>
+          </article>
+        </div>
+
+        <div class="rounded-xl border border-amber-400/40 bg-amber-500/10 p-4 text-sm text-amber-100">
+          <strong>Yasal Uyarı:</strong> Bu test tıbbi veya adli bir teşhis değildir; güvenlik ve farkındalık amacıyla hazırlanmış bir öz değerlendirme aracıdır.
+        </div>
+      </section>
+
+      <section id="test" class="hidden space-y-4">
+        <div class="rounded-xl border border-slate-800 bg-slate-900 p-4">
+          <div class="mb-3 flex items-center justify-between text-sm text-slate-300">
+            <span id="questionCounter">Soru 1 / 64</span>
+            <span id="categoryTitle" class="font-semibold text-slate-100"></span>
+          </div>
+          <div class="h-3 w-full overflow-hidden rounded-full bg-slate-800">
+            <div id="progressBar" class="h-full bg-rose-500 transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <article class="rounded-2xl border border-slate-800 bg-slate-900/90 p-6 shadow-lg">
+          <p id="questionText" class="text-lg font-medium leading-relaxed text-slate-100"></p>
+          <div class="mt-5 flex flex-wrap gap-3">
+            <button data-answer="yes" class="answerBtn rounded-xl bg-rose-600 px-6 py-3 font-semibold text-white hover:bg-rose-500">Evet</button>
+            <button data-answer="no" class="answerBtn rounded-xl bg-slate-700 px-6 py-3 font-semibold text-white hover:bg-slate-600">Hayır</button>
+            <button id="microInfoBtn" class="rounded-xl border border-slate-600 px-4 py-3 text-sm font-semibold text-slate-200 hover:border-slate-400">Mikro ifade bilgisi</button>
+          </div>
+        </article>
+      </section>
+
+      <section id="results" class="hidden space-y-5">
+        <div class="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-lg">
+          <h2 class="text-2xl font-bold text-rose-200">Risk Değerlendirme Sonucu</h2>
+          <p id="riskBadge" class="mt-3 inline-block rounded-lg px-4 py-2 text-sm font-bold"></p>
+          <p id="riskSummary" class="mt-3 text-sm text-slate-200"></p>
+        </div>
+
+        <div class="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+          <h3 class="text-lg font-semibold">Kategori Dağılımı</h3>
+          <div id="categoryBars" class="mt-4 space-y-4"></div>
+        </div>
+
+        <div class="rounded-2xl border border-emerald-400/40 bg-emerald-500/10 p-6">
+          <h3 class="text-lg font-semibold text-emerald-200">Ayrılık ve Güvenlik Eylem Planı</h3>
+          <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-emerald-50">
+            <li>Kimlik, pasaport, banka ve sağlık belgelerinin kopyalarını güvenli bir yerde saklayın.</li>
+            <li>Güvendiğiniz bir kişiyle acil durum şifresi ve buluşma planı belirleyin.</li>
+            <li>Telefon, ulaşım ve acil kaçış çantası için yedek plan hazır tutun.</li>
+            <li>6284 sayılı Kanun kapsamındaki koruyucu/önleyici tedbirler için ŞÖNİM, baro veya kolluğa başvurun.</li>
+            <li>Hayati riskte beklemeden 112'yi arayın ve mümkünse güvenli bir alana geçin.</li>
+          </ul>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <button id="clearAndExitBtn" class="rounded-xl bg-rose-600 px-5 py-3 font-semibold text-white hover:bg-rose-500">Ekranı Temizle ve Çık</button>
+          <button id="restartBtn" class="rounded-xl bg-slate-700 px-5 py-3 font-semibold text-white hover:bg-slate-600">Testi Yeniden Başlat</button>
+        </div>
+      </section>
+    </main>
+
+    <div id="infoModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/80 p-4">
+      <div class="w-full max-w-md rounded-2xl border border-slate-700 bg-slate-900 p-6">
+        <h3 class="text-lg font-semibold text-rose-200">Mikro İfade Bilgisi</h3>
+        <p id="infoModalText" class="mt-3 text-sm text-slate-200"></p>
+        <button class="closeModal mt-5 rounded-lg bg-slate-700 px-4 py-2 font-semibold text-white hover:bg-slate-600">Kapat</button>
+      </div>
+    </div>
+
+    <div id="dangerModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-rose-950/80 p-4">
+      <div class="w-full max-w-md rounded-2xl border border-rose-400 bg-slate-950 p-6">
+        <h3 class="text-xl font-bold text-rose-300">Yüksek Hayati Tehlike!</h3>
+        <p class="mt-3 text-sm text-rose-50">Lütfen güvenli bir yere geçin ve acil hatları arayın. Bu durum hayati risk işareti olabilir.</p>
+        <div class="mt-5 grid gap-2 sm:grid-cols-2">
+          <a href="https://www.egm.gov.tr/kades" target="_blank" rel="noopener noreferrer" class="rounded-lg bg-indigo-600 px-4 py-3 text-center font-semibold text-white hover:bg-indigo-500">KADES İndir</a>
+          <a href="tel:112" class="rounded-lg bg-emerald-500 px-4 py-3 text-center font-semibold text-slate-950 hover:bg-emerald-400">112 Acil Ara</a>
+        </div>
+        <button id="closeDangerModal" class="mt-4 w-full rounded-lg bg-slate-700 px-4 py-2 font-semibold text-white hover:bg-slate-600">Teste Dön</button>
+      </div>
+    </div>
+
+    <script>
+      const categories = [
+        {
+          id: "narsist",
+          title: "Narsist Örüntü (Üstünlük ve Sömürü)",
+          color: "bg-fuchsia-500",
+          micro: "Küçümseme (Tek taraflı dudak kalkması / Asimetrik sırıtış)",
+          questions: [
+            "Partneriniz sık sık sizi değersiz veya yetersiz hissettiren sözler söylüyor mu?",
+            "Kendi ihtiyaçlarını sürekli sizinkilerin önüne koyuyor mu?",
+            "Hata yaptığında özür dilemek yerine suçu size yüklüyor mu?",
+            "Başarılarınızı küçümseyip kendi başarılarını abartıyor mu?",
+            "Sizi başkalarının yanında aşağılayıcı şakalarla hedef alıyor mu?",
+            "Sürekli hayranlık bekleyip eleştiriyi tolere edemiyor mu?",
+            "Sınırlarınızı ihlal ettiğinde bunu normalleştiriyor mu?",
+            "Sizin duygularınızı önemsiz görüp empati kurmuyor mu?",
+            "Kendisini özel kuralların dışında biri gibi görüyor mu?",
+            "İhtiyaç duyduğunuz anda desteğini geri çekip cezalandırıyor mu?",
+            "Kıskandırmak veya güç göstermek için üçüncü kişileri kullanıyor mu?",
+            "İlişkide kararları tek taraflı almak istiyor mu?",
+            "Sizi değiştirmeye veya kontrol etmeye çalışıyor mu?",
+            "Sizi suçlu hissettirerek isteklerini kabul ettiriyor mu?",
+            "Yakınlarınızdan gördüğünüz desteği itibarsızlaştırıyor mu?",
+            "Öfkelendiğinde küçümseyici mimikler ve üstünlük dili kullanıyor mu?"
+          ]
+        },
+        {
+          id: "dengesiz",
+          title: "Duygusal Olarak Dengesiz Örüntü (Terk Edilme Korkusu ve Şantaj)",
+          color: "bg-cyan-500",
+          micro: "Duygusal Çalkantı & Sahte Gülüş",
+          questions: [
+            "Kısa sürede aşırı yakınlık ile uzaklaşma arasında gidip geliyor mu?",
+            "Ayrılma ihtimalinden bahsedildiğinde panik veya öfke patlaması yaşıyor mu?",
+            "Sizi terk etmekle ya da kendine zarar vermekle tehdit ediyor mu?",
+            "Sizin sınırlarınızı reddedip yoğun mesaj/arama baskısı kuruyor mu?",
+            "Küçük bir anlaşmazlığı büyük bir felaket gibi yorumluyor mu?",
+            "Bir gün idealize edip ertesi gün tamamen değersizleştiriyor mu?",
+            "Suçluluk duygusu yaratıp kararlarınızı manipüle ediyor mu?",
+            "Duygusal kriz anlarında sizi yalnız bırakmamak için zorlayıcı davranıyor mu?",
+            "Aşırı kıskançlık nedeniyle anlık öfke çıkışları oluyor mu?",
+            "Sizi test etmek için kasıtlı sessiz kalma veya cezalandırma uyguluyor mu?",
+            "Tartışmalarda gerçekleri çarpıtıp mağduriyet üzerinden baskı kuruyor mu?",
+            "Sizi korkutan yoğun ağlama, bağırma veya dramatik tehditler sergiliyor mu?",
+            "İlişkiyi bitirirseniz hayatının mahvolacağını söyleyerek sizi bağlıyor mu?",
+            "Sizden sürekli kanıt isterken kendi davranışlarını açıklamıyor mu?",
+            "Duygusal iniş çıkışları nedeniyle evde sürekli gergin bir atmosfer oluşuyor mu?",
+            "Sahte sakinlik gösterip hemen ardından şiddetli duygusal patlama yaşıyor mu?"
+          ]
+        },
+        {
+          id: "paranoyak",
+          title: "Paranoyak Örüntü (Kuşkuculuk, Aşırı Kontrol ve Tecrit)",
+          color: "bg-amber-500",
+          micro: "Bastırılmış Öfke (Dudak sıkışması, çene kilitlenmesi)",
+          questions: [
+            "Telefonunuzu, sosyal medyanızı veya mesajlarınızı izinsiz kontrol ediyor mu?",
+            "Nerede olduğunuzu sürekli konum paylaşımıyla doğrulamanızı istiyor mu?",
+            "Aile ve arkadaşlarınızla görüşmenizi kısıtlamaya çalışıyor mu?",
+            "Masum davranışları sadakatsizlik kanıtı gibi yorumluyor mu?",
+            "Sık sık sizi takip edildiğinize veya gözetlendiğinize inandırıyor mu?",
+            "Sizden sürekli hesap vermenizi isterken kendisi şeffaf davranmıyor mu?",
+            "Kıyafetiniz, konuşmanız veya sosyal çevreniz üzerinde katı kontrol kuruyor mu?",
+            "Sizi iş, okul veya sosyal ortamdan izole etmeye çalışıyor mu?",
+            "Dışarı çıkmanız için izin alma hissi yaratıyor mu?",
+            "Yakın çevrenizi size karşı kışkırttığını iddia ederek güvensizlik yayıyor mu?",
+            "Sizi gizlice test etmek için tuzak sorular soruyor mu?",
+            "Aşırı kıskançlıkla fiziksel yakın çevrenizi tehdit ediyor mu?",
+            "Öfkesini bastırıp uzun süre cezalandırıcı sessizlik uyguluyor mu?",
+            "Hareketlerinizi raporlamadığınızda sert tepki veriyor mu?",
+            "Evde veya dijital cihazlarda izleme amaçlı düzenek kurduğundan şüpheleniyor musunuz?",
+            "Kontrol taleplerine karşı çıkınca sizi tehlikeli sonuçlarla korkutuyor mu?"
+          ]
+        },
+        {
+          id: "yirtici",
+          title: "Yırtıcı / Antisosyal Örüntü (Vicdan Yoksunluğu, Tehdit ve Tahakküm)",
+          color: "bg-rose-600",
+          micro: "Tehditkar / Soğuk Delici Bakış",
+          questions: [
+            { text: "Size veya sevdiklerinize zarar vereceğini açıkça söyledi mi?", critical: true },
+            { text: "Öldürme veya ağır yaralama tehdidinde bulundu mu?", critical: true },
+            { text: "Silah taşıyor, gösteriyor veya silahla korkutuyor mu?", critical: true },
+            "Fiziksel şiddet sonrası pişmanlık göstermeden davranışını tekrar etti mi?",
+            { text: "Boğma, nefessiz bırakma ya da ölüm korkusu yaşatan saldırı oldu mu?", critical: true },
+            "Maddi kaynaklarınızı elinizden alarak bağımlı hale getirmeye çalışıyor mu?",
+            "Çocukları veya yakınları tehdit unsuru olarak kullanıyor mu?",
+            "Şiddeti gizlemek için sizi susturmaya veya yalan söylemeye zorluyor mu?",
+            "Hukuki süreç başlatırsanız sizi cezalandıracağını söylüyor mu?",
+            "Evcil hayvanlara veya eşyalara zarar vererek korku yaratıyor mu?",
+            { text: "Ağır fiziksel şiddet (tekme, yumruk, cisimle vurma) uyguladı mı?", critical: true },
+            "Şiddet uygularken soğukkanlı veya keyif alır bir ifade sergiliyor mu?",
+            "Sizi kaçış yollarından mahrum bırakacak şekilde alıkoyuyor mu?",
+            "Zorla cinsel birliktelik veya cinsel baskı uyguluyor mu?",
+            { text: "Ayrılık halinde sizi bulup zarar vereceğini söylüyor mu?", critical: true },
+            "Resmi kurumlara başvurmanızı engellemek için tehdit, takip veya şantaj yapıyor mu?"
+          ]
+        }
+      ];
+
+      const questions = categories.flatMap((category, categoryIndex) =>
+        category.questions.map((entry, qIndex) => {
+          if (typeof entry === "string") {
+            return {
+              text: entry,
+              categoryId: category.id,
+              categoryIndex,
+              categoryTitle: category.title,
+              critical: false,
+              idxInCategory: qIndex + 1
+            };
+          }
+          return {
+            text: entry.text,
+            categoryId: category.id,
+            categoryIndex,
+            categoryTitle: category.title,
+            critical: Boolean(entry.critical),
+            idxInCategory: qIndex + 1
+          };
+        })
+      );
+
+      const state = {
+        started: false,
+        currentIndex: 0,
+        answers: [],
+        categoryYesCounts: {
+          narsist: 0,
+          dengesiz: 0,
+          paranoyak: 0,
+          yirtici: 0
+        },
+        shownCategoryInfo: new Set()
+      };
+
+      const landing = document.getElementById("landing");
+      const test = document.getElementById("test");
+      const results = document.getElementById("results");
+      const startBtn = document.getElementById("startBtn");
+      const questionCounter = document.getElementById("questionCounter");
+      const categoryTitle = document.getElementById("categoryTitle");
+      const progressBar = document.getElementById("progressBar");
+      const questionText = document.getElementById("questionText");
+      const answerBtns = document.querySelectorAll(".answerBtn");
+      const quickExitBtn = document.getElementById("quickExitBtn");
+      const clearAndExitBtn = document.getElementById("clearAndExitBtn");
+      const restartBtn = document.getElementById("restartBtn");
+      const infoModal = document.getElementById("infoModal");
+      const infoModalText = document.getElementById("infoModalText");
+      const microInfoBtn = document.getElementById("microInfoBtn");
+      const dangerModal = document.getElementById("dangerModal");
+      const closeDangerModal = document.getElementById("closeDangerModal");
+
+      const riskBadge = document.getElementById("riskBadge");
+      const riskSummary = document.getElementById("riskSummary");
+      const categoryBars = document.getElementById("categoryBars");
+
+      function quickExit() {
+        window.location.replace("https://www.google.com");
+      }
+
+      function resetState() {
+        state.started = false;
+        state.currentIndex = 0;
+        state.answers = [];
+        state.categoryYesCounts = { narsist: 0, dengesiz: 0, paranoyak: 0, yirtici: 0 };
+        state.shownCategoryInfo = new Set();
+      }
+
+      function openCategoryInfo(categoryIndex) {
+        const category = categories[categoryIndex];
+        infoModalText.textContent = `${category.title}: ${category.micro}`;
+        infoModal.classList.remove("hidden");
+        infoModal.classList.add("flex");
+      }
+
+      function closeInfoModal() {
+        infoModal.classList.add("hidden");
+        infoModal.classList.remove("flex");
+      }
+
+      function openDangerModal() {
+        dangerModal.classList.remove("hidden");
+        dangerModal.classList.add("flex");
+      }
+
+      function closeDanger() {
+        dangerModal.classList.add("hidden");
+        dangerModal.classList.remove("flex");
+      }
+
+      function showQuestion() {
+        const q = questions[state.currentIndex];
+        questionCounter.textContent = `Soru ${state.currentIndex + 1} / ${questions.length}`;
+        categoryTitle.textContent = q.categoryTitle;
+        questionText.textContent = q.text;
+        progressBar.style.width = `${((state.currentIndex + 1) / questions.length) * 100}%`;
+
+        if (q.idxInCategory === 1 && !state.shownCategoryInfo.has(q.categoryId)) {
+          state.shownCategoryInfo.add(q.categoryId);
+          openCategoryInfo(q.categoryIndex);
+        }
+      }
+
+      function evaluateRisk(totalYes) {
+        if (totalYes <= 5) {
+          return {
+            label: "Düşük Risk",
+            badgeClass: "bg-emerald-500/20 text-emerald-200 border border-emerald-400/50",
+            summary: "Şu an belirgin hayati tehlike sinyali düşük görünüyor. Yine de sınırlarınızı koruyun, kırmızı bayrakları izlemeye devam edin."
+          };
+        }
+        if (totalYes <= 15) {
+          return {
+            label: "Orta Risk / Belirgin Kırmızı Bayraklar",
+            badgeClass: "bg-amber-500/20 text-amber-100 border border-amber-400/50",
+            summary: "İlişkide ciddi risk sinyalleri var. Güvenlik planı hazırlayın, destek hatları ve profesyonel yardım seçeneklerini değerlendirin."
+          };
+        }
+        return {
+          label: "Yüksek Tehlike / Güvenlik Planı Gerekli",
+          badgeClass: "bg-rose-500/20 text-rose-100 border border-rose-400/70",
+          summary: "Hayati risk göstergeleri yüksek. Güvenli bir yere geçmeniz, 112 veya Alo 183 ile hızlıca temas kurmanız önemlidir."
+        };
+      }
+
+      function renderCategoryBars() {
+        categoryBars.innerHTML = "";
+        categories.forEach((category) => {
+          const yesCount = state.categoryYesCounts[category.id];
+          const percent = Math.round((yesCount / 16) * 100);
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = `
+            <div class="mb-1 flex items-center justify-between text-sm">
+              <span>${category.title}</span>
+              <span>${yesCount} / 16</span>
+            </div>
+            <div class="h-3 w-full overflow-hidden rounded-full bg-slate-800">
+              <div class="h-full ${category.color}" style="width:${percent}%"></div>
+            </div>
+          `;
+          categoryBars.appendChild(wrapper);
+        });
+      }
+
+      function finishTest() {
+        const totalYes = state.answers.filter(Boolean).length;
+        const risk = evaluateRisk(totalYes);
+
+        riskBadge.className = `mt-3 inline-block rounded-lg px-4 py-2 text-sm font-bold ${risk.badgeClass}`;
+        riskBadge.textContent = `${risk.label} (${totalYes} Evet)`;
+        riskSummary.textContent = risk.summary;
+
+        renderCategoryBars();
+        test.classList.add("hidden");
+        results.classList.remove("hidden");
+      }
+
+      function handleAnswer(answer) {
+        const isYes = answer === "yes";
+        const q = questions[state.currentIndex];
+        state.answers.push(isYes);
+
+        if (isYes) {
+          state.categoryYesCounts[q.categoryId] += 1;
+          if (q.categoryId === "yirtici" && q.critical) {
+            openDangerModal();
+          }
+        }
+
+        state.currentIndex += 1;
+        if (state.currentIndex >= questions.length) {
+          finishTest();
+          return;
+        }
+
+        showQuestion();
+      }
+
+      function startTest() {
+        resetState();
+        state.started = true;
+        landing.classList.add("hidden");
+        results.classList.add("hidden");
+        test.classList.remove("hidden");
+        showQuestion();
+      }
+
+      function restartTest() {
+        startTest();
+      }
+
+      function clearAndExit() {
+        document.body.innerHTML = "";
+        quickExit();
+      }
+
+      startBtn.addEventListener("click", startTest);
+      restartBtn.addEventListener("click", restartTest);
+      answerBtns.forEach((btn) => btn.addEventListener("click", () => handleAnswer(btn.dataset.answer)));
+      quickExitBtn.addEventListener("click", quickExit);
+      clearAndExitBtn.addEventListener("click", clearAndExit);
+      microInfoBtn.addEventListener("click", () => {
+        const q = questions[state.currentIndex];
+        openCategoryInfo(q.categoryIndex);
+      });
+
+      document.querySelectorAll(".closeModal").forEach((btn) => btn.addEventListener("click", closeInfoModal));
+      infoModal.addEventListener("click", (e) => {
+        if (e.target === infoModal) closeInfoModal();
+      });
+
+      closeDangerModal.addEventListener("click", closeDanger);
+      dangerModal.addEventListener("click", (e) => {
+        if (e.target === dangerModal) closeDanger();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          quickExit();
+          return;
+        }
+        if (e.key.toLowerCase() === "i" && state.started && !test.classList.contains("hidden")) {
+          const q = questions[state.currentIndex];
+          openCategoryInfo(q.categoryIndex);
+        }
+      });
+    </script>
+  </body>
+</html>
