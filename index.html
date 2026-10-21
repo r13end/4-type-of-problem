@@ -7,17 +7,38 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       @keyframes gradientShift {
-        0% { background-position: 0% 50%; }
-        100% { background-position: 200% 50%; }
+        0% {
+          background-position: 0% 50%;
+        }
+        100% {
+          background-position: 200% 50%;
+        }
+      }
+      @keyframes darknessPulse {
+        0% {
+          transform: scale(1);
+          filter: drop-shadow(0 0 0 rgba(15, 23, 42, 0));
+        }
+        35% {
+          transform: scale(1.018);
+          filter: drop-shadow(0 0 12px rgba(15, 23, 42, 0.45));
+        }
+        100% {
+          transform: scale(1);
+          filter: drop-shadow(0 0 0 rgba(15, 23, 42, 0));
+        }
       }
       .progress-gradient {
         background: linear-gradient(90deg, #fb7185, #f43f5e, #ec4899, #fb7185);
         background-size: 200% 100%;
         animation: gradientShift 2.8s linear infinite;
       }
-      .face-line {
-        stroke: #cbd5e1;
-        stroke-width: 3;
+      .pulse-dark {
+        animation: darknessPulse 0.42s ease-out;
+      }
+      .mono-face {
+        stroke: #0f172a;
+        stroke-width: 2.5;
         stroke-linecap: round;
         stroke-linejoin: round;
         fill: none;
@@ -82,23 +103,41 @@
           </div>
         </div>
 
-        <article id="bodyLanguageCard" class="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 shadow-xl shadow-slate-950/30 transition-all duration-300">
-          <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
-            <div id="expressionSvg" class="w-full max-w-[140px] rounded-2xl border border-slate-700 bg-slate-950/70 p-2"></div>
-            <div>
-              <p class="text-xs font-semibold uppercase tracking-widest text-rose-300">Beden Dili ve Mikro İfade İpucu</p>
-              <h3 id="expressionTitle" class="mt-1 text-base font-semibold text-slate-100"></h3>
-              <p id="expressionHint" class="mt-1 text-sm text-slate-300"></p>
-            </div>
-          </div>
-        </article>
-
-        <article class="rounded-2xl border border-slate-800 bg-slate-900/90 p-6 shadow-2xl shadow-slate-950/40">
+        <article id="questionCard" class="rounded-2xl border border-slate-800 bg-slate-900/90 p-6 shadow-2xl shadow-slate-950/40">
           <p id="questionText" class="text-lg font-medium leading-relaxed text-slate-100"></p>
           <div class="mt-5 flex flex-wrap gap-3">
             <button data-answer="yes" class="answerBtn rounded-2xl bg-rose-600 px-6 py-3 font-semibold text-white shadow-md shadow-rose-700/20 transition duration-200 hover:scale-[1.03] hover:bg-rose-500 active:scale-95 focus:outline-none focus:ring-2 focus:ring-rose-300">Evet</button>
             <button data-answer="no" class="answerBtn rounded-2xl bg-slate-700 px-6 py-3 font-semibold text-white shadow-md shadow-slate-800/30 transition duration-200 hover:scale-[1.03] hover:bg-slate-600 active:scale-95 focus:outline-none focus:ring-2 focus:ring-slate-400">Hayır</button>
             <button id="microInfoBtn" class="rounded-2xl border border-slate-600 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:border-slate-400 hover:bg-slate-800/60">Mikro ifade bilgisi</button>
+          </div>
+        </article>
+
+        <article class="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 shadow-xl shadow-slate-950/30">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-start">
+            <div id="silhouetteWrap" class="mx-auto w-full max-w-[220px] transition-all duration-300">
+              <div id="silhouette" class="relative overflow-hidden rounded-[38px] border border-slate-700 bg-gradient-to-b from-slate-700/60 via-slate-800/60 to-indigo-900/50 p-4 opacity-30 transition-all duration-500">
+                <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.2),_transparent_58%)]"></div>
+                <svg viewBox="0 0 180 180" class="relative z-10 mx-auto h-44 w-full max-w-[160px] blur-[0.45px]" aria-hidden="true">
+                  <ellipse cx="90" cy="62" rx="42" ry="48" fill="rgba(15,23,42,0.55)"></ellipse>
+                  <path d="M42 160c8-38 31-58 48-58 18 0 41 20 48 58" fill="rgba(15,23,42,0.68)"></path>
+                </svg>
+              </div>
+              <div class="mt-3">
+                <div class="mb-1 flex items-center justify-between text-[11px] uppercase tracking-widest text-slate-400">
+                  <span>Gerilim Düzeyi</span>
+                  <span id="tensionValue">0 / 64</span>
+                </div>
+                <div class="h-2.5 w-full overflow-hidden rounded-full bg-slate-800">
+                  <div id="tensionBar" class="h-full w-0 bg-gradient-to-r from-slate-500 via-indigo-700 to-slate-950 transition-all duration-500"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flex-1 rounded-2xl border border-slate-700/70 bg-slate-950/60 p-4">
+              <p class="text-xs font-semibold uppercase tracking-widest text-rose-300">Beden Dili ve Mikro İfade İpucu</p>
+              <h3 id="expressionTitle" class="mt-2 text-base font-semibold text-slate-100"></h3>
+              <p id="expressionHint" class="mt-1 text-sm text-slate-300"></p>
+              <div id="expressionSvg" class="mt-3 max-w-[220px] rounded-xl border border-slate-700 bg-white/95 p-2"></div>
+            </div>
           </div>
         </article>
       </section>
@@ -111,13 +150,26 @@
         </div>
 
         <div class="rounded-2xl border border-slate-800 bg-slate-900/90 p-6 shadow-xl shadow-slate-950/30">
-          <h3 class="text-lg font-semibold">Kategori Dağılımı</h3>
+          <h3 class="text-lg font-semibold">Baskın ve Destekleyici Profil Analizi</h3>
+          <p id="profilePair" class="mt-3 rounded-xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100"></p>
+          <div id="scenarioCard" class="mt-3 rounded-xl border border-rose-400/40 bg-rose-500/10 p-4 text-sm text-rose-50"></div>
+        </div>
+
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/90 p-6 shadow-xl shadow-slate-950/30">
+          <h3 class="text-lg font-semibold">Kategori Dağılımı ve Yüzdelik Yoğunluk</h3>
+          <div class="mt-4">
+            <div class="mb-2 flex items-center justify-between text-xs uppercase tracking-widest text-slate-400">
+              <span>4 Boyut Toplamı</span>
+              <span id="stackedTotals"></span>
+            </div>
+            <div id="stackedBar" class="flex h-4 overflow-hidden rounded-full bg-slate-800"></div>
+          </div>
           <div id="categoryBars" class="mt-4 space-y-4"></div>
         </div>
 
         <div class="rounded-2xl border border-sky-400/40 bg-sky-500/10 p-6 shadow-lg shadow-sky-900/10">
-          <h3 class="text-lg font-semibold text-sky-100">İlişki Beden Dili Rehberi</h3>
-          <div id="bodyLanguageGallery" class="mt-4 grid gap-3 sm:grid-cols-2"></div>
+          <h3 class="text-lg font-semibold text-sky-100">Mikro İfadeler Rehberi</h3>
+          <div id="bodyLanguageGallery" class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4"></div>
         </div>
 
         <div class="rounded-2xl border border-emerald-400/40 bg-emerald-500/10 p-6 shadow-lg shadow-emerald-900/10">
@@ -139,8 +191,9 @@
     </main>
 
     <div id="infoModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/80 p-4">
-      <div class="w-full max-w-md rounded-2xl border border-slate-700 bg-slate-900 p-6 shadow-2xl shadow-slate-950/40">
+      <div class="w-full max-w-lg rounded-2xl border border-slate-700 bg-slate-900 p-6 shadow-2xl shadow-slate-950/40">
         <h3 class="text-lg font-semibold text-rose-200">Mikro İfade Bilgisi</h3>
+        <div id="infoModalSvg" class="mt-3 max-w-[230px] rounded-xl border border-slate-700 bg-white/95 p-2"></div>
         <p id="infoModalText" class="mt-3 text-sm text-slate-200"></p>
         <button class="closeModal mt-5 rounded-xl bg-slate-700 px-4 py-2 font-semibold text-white transition hover:bg-slate-600">Kapat</button>
       </div>
@@ -171,77 +224,67 @@
     </div>
 
     <script>
-      const cues = {
+      const microExpressions = {
         contempt: {
-          title: "Küçümseme / Asimetrik Sırıtış",
-          hint: "Tek taraflı dudak kalkışı üstünlük ve küçümseme sinyali olabilir.",
-          svg: `
-            <svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true">
-              <circle cx="60" cy="60" r="48" class="fill-slate-900" stroke="#475569" stroke-width="2" />
-              <circle cx="43" cy="48" r="4" fill="#e2e8f0" />
-              <circle cx="77" cy="48" r="4" fill="#e2e8f0" />
-              <path class="face-line" d="M34 38h20" />
-              <path class="face-line" d="M66 38h20" />
-              <path class="face-line" d="M38 77c7 4 16 5 26 2" />
-              <path class="face-line" d="M64 79c7 0 12-4 18-10" />
-            </svg>
-          `
+          title: "Küçümseme",
+          hint: "Asimetrik sırıtış ve tek kaşın hafif yükselmesi üstünlük kurma niyetini gösterebilir.",
+          svg: `<svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true"><ellipse cx="60" cy="60" rx="45" ry="48" class="mono-face"/><path class="mono-face" d="M33 42c7-5 14-5 22-2"/><path class="mono-face" d="M66 40c8-2 16-1 22 3"/><ellipse cx="43" cy="54" rx="6" ry="4" class="mono-face"/><ellipse cx="78" cy="54" rx="6" ry="4" class="mono-face"/><path class="mono-face" d="M40 80c7 3 13 3 19-1"/><path class="mono-face" d="M59 80c6 0 12-2 19-8"/></svg>`
         },
-        repressedAnger: {
-          title: "Bastırılmış Öfke",
-          hint: "Sıkılmış dudak ve çatık kaşlar, bastırılan gerilim ve kontrol sinyali verebilir.",
-          svg: `
-            <svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true">
-              <circle cx="60" cy="60" r="48" class="fill-slate-900" stroke="#475569" stroke-width="2" />
-              <path class="face-line" d="M32 44l18-6" />
-              <path class="face-line" d="M88 44l-18-6" />
-              <circle cx="44" cy="52" r="4" fill="#e2e8f0" />
-              <circle cx="76" cy="52" r="4" fill="#e2e8f0" />
-              <path class="face-line" d="M43 79h34" />
-              <path class="face-line" d="M43 83h34" />
-            </svg>
-          `
+        arrogance: {
+          title: "Kibirli Bakış",
+          hint: "Yarım kapalı gözler, yukarı kalkık çene ve düz dudak çizgisi mesafe koyan kibirli bir ifade yaratır.",
+          svg: `<svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true"><ellipse cx="60" cy="60" rx="45" ry="48" class="mono-face"/><path class="mono-face" d="M33 44h22"/><path class="mono-face" d="M65 44h22"/><path class="mono-face" d="M37 54h14"/><path class="mono-face" d="M69 54h14"/><path class="mono-face" d="M40 78h40"/><path class="mono-face" d="M46 90c9 3 19 3 28 0"/></svg>`
         },
         fakeSmile: {
-          title: "Sahte Maske Gülüş",
-          hint: "Ağız gülüyor gibi görünürken gözler sabit kalıyorsa duygu uyumsuzluğu olabilir.",
-          svg: `
-            <svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true">
-              <circle cx="60" cy="60" r="48" class="fill-slate-900" stroke="#475569" stroke-width="2" />
-              <circle cx="43" cy="50" r="3.5" fill="#e2e8f0" />
-              <circle cx="77" cy="50" r="3.5" fill="#e2e8f0" />
-              <path class="face-line" d="M33 43h20" />
-              <path class="face-line" d="M67 43h20" />
-              <path class="face-line" d="M36 75c8 7 40 7 48 0" />
-              <path class="face-line" d="M40 75c6-2 34-2 40 0" />
-            </svg>
-          `
+          title: "Maske Gülüş",
+          hint: "Gözler kıpırtısızken gerilmiş bir gülüş, gerçek duygunun saklanmaya çalışıldığını düşündürebilir.",
+          svg: `<svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true"><ellipse cx="60" cy="60" rx="45" ry="48" class="mono-face"/><circle cx="43" cy="52" r="4" class="mono-face"/><circle cx="77" cy="52" r="4" class="mono-face"/><path class="mono-face" d="M34 41h18"/><path class="mono-face" d="M68 41h18"/><path class="mono-face" d="M35 76c9 7 41 7 50 0"/><path class="mono-face" d="M38 75h44"/></svg>`
+        },
+        desperateAnger: {
+          title: "Patlama Öncesi Çaresiz Öfke",
+          hint: "Kaş iç uçlarının yükselip birleşmesi ve ağız köşelerinin düşmesi baskılanan yoğun öfkeye işaret edebilir.",
+          svg: `<svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true"><ellipse cx="60" cy="60" rx="45" ry="48" class="mono-face"/><path class="mono-face" d="M33 45l16-8"/><path class="mono-face" d="M87 45l-16-8"/><path class="mono-face" d="M45 52h10"/><path class="mono-face" d="M65 52h10"/><path class="mono-face" d="M39 82c7-6 15-8 22-7"/><path class="mono-face" d="M59 75c7-1 15 1 22 7"/></svg>`
+        },
+        suspiciousGlare: {
+          title: "Kuşkucu Yan Bakış",
+          hint: "Yana kayan dar bakış, çatık kaşlar ve alın çizgileri kuşkucu zihniyetle ilişkilendirilebilir.",
+          svg: `<svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true"><ellipse cx="60" cy="60" rx="45" ry="48" class="mono-face"/><path class="mono-face" d="M35 42c8-4 15-4 22-1"/><path class="mono-face" d="M64 43c8-4 14-4 22-2"/><path class="mono-face" d="M38 55h13"/><path class="mono-face" d="M69 55h13"/><line x1="57" y1="30" x2="57" y2="38" class="mono-face"/><line x1="64" y1="30" x2="64" y2="38" class="mono-face"/><path class="mono-face" d="M42 80c10 2 26 2 36 0"/></svg>`
+        },
+        compressedLips: {
+          title: "Kilitlenmiş Çene",
+          hint: "Sıkıca kapanmış dudak çizgisi ve sert çene hattı bastırılmış çatışma sinyali verebilir.",
+          svg: `<svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true"><ellipse cx="60" cy="60" rx="45" ry="48" class="mono-face"/><path class="mono-face" d="M34 44h20"/><path class="mono-face" d="M66 44h20"/><ellipse cx="44" cy="54" rx="5" ry="4" class="mono-face"/><ellipse cx="76" cy="54" rx="5" ry="4" class="mono-face"/><path class="mono-face" d="M39 78h42"/><path class="mono-face" d="M36 86c8 5 39 5 48 0"/></svg>`
         },
         predatoryStare: {
-          title: "Tehditkar Bakış",
-          hint: "Donuk, uzun ve delici bakışlar baskı kurma veya tehdit davranışıyla ilişkili olabilir.",
-          svg: `
-            <svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true">
-              <circle cx="60" cy="60" r="48" class="fill-slate-900" stroke="#475569" stroke-width="2" />
-              <ellipse cx="43" cy="52" rx="11" ry="7" fill="#0f172a" stroke="#cbd5e1" stroke-width="2" />
-              <ellipse cx="77" cy="52" rx="11" ry="7" fill="#0f172a" stroke="#cbd5e1" stroke-width="2" />
-              <circle cx="43" cy="52" r="4" fill="#f8fafc" />
-              <circle cx="77" cy="52" r="4" fill="#f8fafc" />
-              <path class="face-line" d="M33 43h20" />
-              <path class="face-line" d="M67 43h20" />
-              <path class="face-line" d="M44 80c10 3 22 3 32 0" />
-            </svg>
-          `
+          title: "Kırpmasız Avcı Bakışı",
+          hint: "Göz çevresinde belirgin beyazlıkla donuk, kırpmasız bakış tehdit ve tahakküm amacı taşıyabilir.",
+          svg: `<svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true"><ellipse cx="60" cy="60" rx="45" ry="48" class="mono-face"/><path class="mono-face" d="M33 40h20"/><path class="mono-face" d="M67 40h20"/><circle cx="43" cy="54" r="10" class="mono-face"/><circle cx="77" cy="54" r="10" class="mono-face"/><circle cx="43" cy="54" r="4" class="mono-face"/><circle cx="77" cy="54" r="4" class="mono-face"/><path class="mono-face" d="M43 80h34"/></svg>`
+        },
+        sinisterSmirk: {
+          title: "Tehditkar Donuk Sırıtış",
+          hint: "Duygusuz gözlerle eşleşen çok hafif düz sırıtış, hesaplı bir tehdit duygusu oluşturabilir.",
+          svg: `<svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true"><ellipse cx="60" cy="60" rx="45" ry="48" class="mono-face"/><path class="mono-face" d="M35 43h18"/><path class="mono-face" d="M67 43h18"/><path class="mono-face" d="M40 54h10"/><path class="mono-face" d="M70 54h10"/><path class="mono-face" d="M38 79c10 0 27 0 43-2"/><path class="mono-face" d="M44 84c9 1 20 1 30-1"/></svg>`
         }
       };
+
+      const expressionFlow = [
+        "contempt",
+        "arrogance",
+        "fakeSmile",
+        "desperateAnger",
+        "suspiciousGlare",
+        "compressedLips",
+        "predatoryStare",
+        "sinisterSmirk"
+      ];
 
       const categories = [
         {
           id: "narsist",
           title: "Narsist Örüntü (Üstünlük ve Sömürü)",
+          shortLabel: "Narsist",
           color: "bg-fuchsia-500",
-          micro: "Küçümseme (Tek taraflı dudak kalkması / Asimetrik sırıtış)",
-          cueKey: "contempt",
+          accent: "text-fuchsia-300",
           questions: [
             "Partneriniz sık sık sizi değersiz veya yetersiz hissettiren sözler söylüyor mu?",
             "Kendi ihtiyaçlarını sürekli sizinkilerin önüne koyuyor mu?",
@@ -264,9 +307,9 @@
         {
           id: "dengesiz",
           title: "Duygusal Olarak Dengesiz Örüntü (Terk Edilme Korkusu ve Şantaj)",
+          shortLabel: "Dengesiz",
           color: "bg-cyan-500",
-          micro: "Duygusal Çalkantı & Sahte Gülüş",
-          cueKey: "fakeSmile",
+          accent: "text-cyan-300",
           questions: [
             "Kısa sürede aşırı yakınlık ile uzaklaşma arasında gidip geliyor mu?",
             "Ayrılma ihtimalinden bahsedildiğinde panik veya öfke patlaması yaşıyor mu?",
@@ -289,9 +332,9 @@
         {
           id: "paranoyak",
           title: "Paranoyak Örüntü (Kuşkuculuk, Aşırı Kontrol ve Tecrit)",
+          shortLabel: "Paranoyak",
           color: "bg-amber-500",
-          micro: "Bastırılmış Öfke (Dudak sıkışması, çene kilitlenmesi)",
-          cueKey: "repressedAnger",
+          accent: "text-amber-300",
           questions: [
             "Telefonunuzu, sosyal medyanızı veya mesajlarınızı izinsiz kontrol ediyor mu?",
             "Nerede olduğunuzu sürekli konum paylaşımıyla doğrulamanızı istiyor mu?",
@@ -314,9 +357,9 @@
         {
           id: "yirtici",
           title: "Yırtıcı / Antisosyal Örüntü (Vicdan Yoksunluğu, Tehdit ve Tahakküm)",
+          shortLabel: "Yırtıcı",
           color: "bg-rose-600",
-          micro: "Tehditkar / Soğuk Delici Bakış",
-          cueKey: "predatoryStare",
+          accent: "text-rose-300",
           questions: [
             { text: "Size veya sevdiklerinize zarar vereceğini açıkça söyledi mi?", critical: true },
             { text: "Öldürme veya ağır yaralama tehdidinde bulundu mu?", critical: true },
@@ -338,45 +381,25 @@
         }
       ];
 
-      const questions = categories.flatMap((category, categoryIndex) =>
-        category.questions.map((entry, qIndex) => {
-          if (typeof entry === "string") {
-            return {
-              text: entry,
-              categoryId: category.id,
-              categoryIndex,
-              categoryTitle: category.title,
-              critical: false,
-              idxInCategory: qIndex + 1
-            };
-          }
-          return {
-            text: entry.text,
-            categoryId: category.id,
-            categoryIndex,
-            categoryTitle: category.title,
-            critical: Boolean(entry.critical),
-            idxInCategory: qIndex + 1
-          };
-        })
-      );
-
-      const state = {
-        started: false,
-        currentIndex: 0,
-        answers: [],
-        categoryYesCounts: {
-          narsist: 0,
-          dengesiz: 0,
-          paranoyak: 0,
-          yirtici: 0
-        },
-        shownCategoryInfo: new Set()
+      const hybridScenarios = {
+        "narsist+paranoyak": "Bu hibrit örüntüde destekleyici paranoyak dinamik, baskın narsist yapıyı besleyerek kamusal itibara saldırı, takibe alma ve ayrılığı sadakatsizlik iftirası gibi davranışları tetikleyebilir.",
+        "yirtici+narsist": "Bu kombinasyonda destekleyici narsist eğilim, baskın yırtıcı yapıyı hukuksuzlukla güçlendirebilir; mahkeme kararlarını yırtma, finansal tuzak kurma ve sınırsız hak görme davranışları görülebilir.",
+        "dengesiz+paranoyak": "Bu birleşimde destekleyici paranoyak katman, baskın dengesiz örüntüyü intihar şantajı sonrası yoğun sorgulama ve mülk/eşya yıkımı döngüsüne sürükleyebilir.",
+        "yirtici+dengesiz": "Bu yüksek riskli eşleşmede destekleyici dengesiz katman, baskın yırtıcı örüntüyü tutku kisvesi altında hesaplı pusu ve ölümcül fiziksel risk davranışlarına taşıyabilir."
       };
 
       const STORE_LINKS = {
         android: "https://play.google.com/store/apps/details?id=tr.gov.egm.kades",
         ios: "https://apps.apple.com/tr/app/kades/id1360309770"
+      };
+
+      const state = {
+        started: false,
+        currentIndex: 0,
+        answers: [],
+        categoryYesCounts: { narsist: 0, dengesiz: 0, paranoyak: 0, yirtici: 0 },
+        shownCategoryInfo: new Set(),
+        questionDeck: []
       };
 
       const landing = document.getElementById("landing");
@@ -393,18 +416,68 @@
       const restartBtn = document.getElementById("restartBtn");
       const infoModal = document.getElementById("infoModal");
       const infoModalText = document.getElementById("infoModalText");
+      const infoModalSvg = document.getElementById("infoModalSvg");
       const microInfoBtn = document.getElementById("microInfoBtn");
       const dangerModal = document.getElementById("dangerModal");
       const closeDangerModal = document.getElementById("closeDangerModal");
       const kadesModal = document.getElementById("kadesModal");
-
       const riskBadge = document.getElementById("riskBadge");
       const riskSummary = document.getElementById("riskSummary");
       const categoryBars = document.getElementById("categoryBars");
+      const stackedBar = document.getElementById("stackedBar");
+      const stackedTotals = document.getElementById("stackedTotals");
+      const profilePair = document.getElementById("profilePair");
+      const scenarioCard = document.getElementById("scenarioCard");
       const expressionSvg = document.getElementById("expressionSvg");
       const expressionTitle = document.getElementById("expressionTitle");
       const expressionHint = document.getElementById("expressionHint");
       const bodyLanguageGallery = document.getElementById("bodyLanguageGallery");
+      const silhouette = document.getElementById("silhouette");
+      const silhouetteWrap = document.getElementById("silhouetteWrap");
+      const tensionBar = document.getElementById("tensionBar");
+      const tensionValue = document.getElementById("tensionValue");
+
+      function shuffleArray(list) {
+        const arr = [...list];
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      function buildQuestions() {
+        const all = categories.flatMap((category, categoryIndex) =>
+          category.questions.map((entry, questionIndex) => {
+            const value = typeof entry === "string" ? { text: entry, critical: false } : entry;
+            return {
+              text: value.text,
+              critical: Boolean(value.critical),
+              categoryId: category.id,
+              categoryIndex,
+              categoryTitle: category.title,
+              categoryShort: category.shortLabel,
+              idxInCategory: questionIndex + 1,
+              decisive: questionIndex === 15
+            };
+          })
+        );
+
+        const reservedFinal = [];
+        const pool = [];
+        all.forEach((q) => (q.decisive ? reservedFinal.push(q) : pool.push(q)));
+
+        const shuffledMain = shuffleArray(pool);
+        const shuffledFinal = shuffleArray(reservedFinal);
+        return [...shuffledMain, ...shuffledFinal];
+      }
+
+      function detectDevice() {
+        const ua = navigator.userAgent || navigator.vendor || window.opera || "";
+        if (/android/i.test(ua)) return "android";
+        if (/iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)) return "ios";
+        return "desktop";
+      }
 
       function quickExit() {
         try {
@@ -415,13 +488,6 @@
           if (key) document.cookie = `${key}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
         });
         window.location.replace("https://www.google.com");
-      }
-
-      function detectDevice() {
-        const ua = navigator.userAgent || navigator.vendor || window.opera || "";
-        if (/android/i.test(ua)) return "android";
-        if (/iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)) return "ios";
-        return "desktop";
       }
 
       function openKadesModal() {
@@ -453,35 +519,61 @@
         state.answers = [];
         state.categoryYesCounts = { narsist: 0, dengesiz: 0, paranoyak: 0, yirtici: 0 };
         state.shownCategoryInfo = new Set();
+        state.questionDeck = buildQuestions();
       }
 
-      function renderBodyLanguageCard(categoryIndex) {
-        const category = categories[categoryIndex];
-        const cue = cues[category.cueKey];
-        expressionTitle.textContent = cue.title;
-        expressionHint.textContent = cue.hint;
-        expressionSvg.innerHTML = cue.svg;
+      function yesCount() {
+        return state.answers.filter(Boolean).length;
       }
 
-      function renderBodyLanguageGallery() {
-        bodyLanguageGallery.innerHTML = "";
-        ["contempt", "repressedAnger", "fakeSmile", "predatoryStare"].forEach((key) => {
-          const cue = cues[key];
-          const card = document.createElement("article");
-          card.className = "rounded-2xl border border-slate-700/70 bg-slate-900/90 p-3 shadow-lg shadow-slate-950/30";
-          card.innerHTML = `
-            <div class="rounded-xl border border-slate-700 bg-slate-950/80 p-2">${cue.svg}</div>
-            <h4 class="mt-2 text-sm font-semibold text-slate-100">${cue.title}</h4>
-            <p class="mt-1 text-xs text-slate-300">${cue.hint}</p>
-          `;
-          bodyLanguageGallery.appendChild(card);
-        });
+      function updateSilhouette() {
+        const yes = yesCount();
+        const ratio = Math.round((yes / state.questionDeck.length) * 100);
+        tensionBar.style.width = `${ratio}%`;
+        tensionValue.textContent = `${yes} / ${state.questionDeck.length}`;
+
+        silhouette.className = "relative overflow-hidden rounded-[38px] border p-4 transition-all duration-500";
+        silhouetteWrap.classList.remove("drop-shadow-2xl", "drop-shadow-xl");
+
+        if (yes <= 5) {
+          silhouette.classList.add("border-slate-700", "bg-gradient-to-b", "from-slate-700/60", "via-slate-800/60", "to-violet-900/40", "opacity-30");
+          tensionBar.className = "h-full bg-gradient-to-r from-slate-500 via-indigo-700 to-slate-900 transition-all duration-500";
+        } else if (yes <= 15) {
+          silhouette.classList.add("border-slate-600", "bg-gradient-to-b", "from-slate-700/90", "via-slate-900", "to-slate-950", "opacity-80", "shadow-2xl", "shadow-slate-950/75");
+          silhouetteWrap.classList.add("drop-shadow-xl");
+          tensionBar.className = "h-full bg-gradient-to-r from-slate-600 via-slate-900 to-indigo-950 transition-all duration-500";
+        } else {
+          silhouette.classList.add("border-slate-950", "bg-slate-950", "opacity-100", "shadow-2xl", "shadow-slate-950/95");
+          silhouetteWrap.classList.add("drop-shadow-2xl");
+          tensionBar.className = "h-full bg-gradient-to-r from-slate-800 via-slate-900 to-black transition-all duration-500";
+        }
       }
 
-      function openCategoryInfo(categoryIndex) {
-        const category = categories[categoryIndex];
-        const cue = cues[category.cueKey];
-        infoModalText.textContent = `${category.title}: ${category.micro}. İpucu: ${cue.hint}`;
+      function triggerDarkPulse() {
+        silhouette.classList.remove("pulse-dark");
+        void silhouette.offsetWidth;
+        silhouette.classList.add("pulse-dark");
+      }
+
+      function pickExpressionForQuestion(q) {
+        const base = q.categoryIndex % expressionFlow.length;
+        const idx = (q.idxInCategory + base) % expressionFlow.length;
+        return expressionFlow[idx];
+      }
+
+      function renderExpression(q) {
+        const key = pickExpressionForQuestion(q);
+        const expression = microExpressions[key];
+        expressionTitle.textContent = expression.title;
+        expressionHint.textContent = expression.hint;
+        expressionSvg.innerHTML = expression.svg;
+      }
+
+      function openExpressionInfo(q) {
+        const key = pickExpressionForQuestion(q);
+        const expression = microExpressions[key];
+        infoModalSvg.innerHTML = expression.svg;
+        infoModalText.textContent = `${q.categoryShort}: ${expression.title}. ${expression.hint}`;
         infoModal.classList.remove("hidden");
         infoModal.classList.add("flex");
       }
@@ -502,16 +594,17 @@
       }
 
       function showQuestion() {
-        const q = questions[state.currentIndex];
-        questionCounter.textContent = `Soru ${state.currentIndex + 1} / ${questions.length}`;
+        const q = state.questionDeck[state.currentIndex];
+        questionCounter.textContent = `Soru ${state.currentIndex + 1} / ${state.questionDeck.length}`;
         categoryTitle.textContent = q.categoryTitle;
         questionText.textContent = q.text;
-        progressBar.style.width = `${((state.currentIndex + 1) / questions.length) * 100}%`;
-        renderBodyLanguageCard(q.categoryIndex);
+        progressBar.style.width = `${((state.currentIndex + 1) / state.questionDeck.length) * 100}%`;
+        renderExpression(q);
+        updateSilhouette();
 
         if (q.idxInCategory === 1 && !state.shownCategoryInfo.has(q.categoryId)) {
           state.shownCategoryInfo.add(q.categoryId);
-          openCategoryInfo(q.categoryIndex);
+          openExpressionInfo(q);
         }
       }
 
@@ -537,58 +630,109 @@
         };
       }
 
+      function renderProfileAnalysis() {
+        const ranked = categories
+          .map((category) => ({ category, count: state.categoryYesCounts[category.id] }))
+          .sort((a, b) => b.count - a.count);
+
+        const dominant = ranked[0];
+        const support = ranked[1];
+        profilePair.textContent = `Baskın Profil: ${dominant.category.shortLabel} (${dominant.count}/16) • Destekleyici Profil: ${support.category.shortLabel} (${support.count}/16)`;
+
+        const scenarioKey = `${dominant.category.id}+${support.category.id}`;
+        scenarioCard.textContent =
+          hybridScenarios[scenarioKey] ||
+          `Bu eşleşmede ${support.category.shortLabel} dinamiği, ${dominant.category.shortLabel} örüntüsünün kontrol ve baskı davranışlarını güçlendirebilir. Güvenlik planını erken oluşturmak kritik önem taşır.`;
+      }
+
       function renderCategoryBars() {
         categoryBars.innerHTML = "";
+        stackedBar.innerHTML = "";
+
+        const total = categories.reduce((sum, c) => sum + state.categoryYesCounts[c.id], 0) || 1;
+        stackedTotals.textContent = `${total} toplam "Evet"`;
+
         categories.forEach((category) => {
-          const yesCount = state.categoryYesCounts[category.id];
-          const percent = Math.round((yesCount / 16) * 100);
-          const wrapper = document.createElement("div");
-          wrapper.innerHTML = `
+          const yes = state.categoryYesCounts[category.id];
+          const percentOfCategory = Math.round((yes / 16) * 100);
+          const shareOfTotal = (yes / total) * 100;
+
+          const segment = document.createElement("div");
+          segment.className = `${category.color} h-full transition-all duration-500`;
+          segment.style.width = `${shareOfTotal}%`;
+          segment.title = `${category.shortLabel}: ${Math.round(shareOfTotal)}%`;
+          stackedBar.appendChild(segment);
+
+          const item = document.createElement("div");
+          item.innerHTML = `
             <div class="mb-1 flex items-center justify-between text-sm">
-              <span>${category.title}</span>
-              <span>${yesCount} / 16</span>
+              <span class="${category.accent}">${category.shortLabel}</span>
+              <span>${yes} / 16 (%${percentOfCategory})</span>
             </div>
             <div class="h-3 w-full overflow-hidden rounded-full bg-slate-800">
-              <div class="h-full ${category.color} transition-all duration-500" style="width:${percent}%"></div>
+              <div class="h-full ${category.color} transition-all duration-500" style="width:${percentOfCategory}%"></div>
             </div>
           `;
-          categoryBars.appendChild(wrapper);
+          categoryBars.appendChild(item);
+        });
+      }
+
+      function renderBodyLanguageGallery() {
+        bodyLanguageGallery.innerHTML = "";
+        Object.values(microExpressions).forEach((item) => {
+          const card = document.createElement("button");
+          card.type = "button";
+          card.className = "text-left rounded-2xl border border-slate-700/70 bg-slate-900/90 p-3 shadow-lg shadow-slate-950/30 transition hover:-translate-y-0.5 hover:border-sky-300/60";
+          card.innerHTML = `
+            <div class="rounded-xl border border-slate-700 bg-white/95 p-2">${item.svg}</div>
+            <h4 class="mt-2 text-sm font-semibold text-slate-100">${item.title}</h4>
+            <p class="mt-1 text-xs text-slate-300">${item.hint}</p>
+          `;
+          card.addEventListener("click", () => {
+            infoModalSvg.innerHTML = item.svg;
+            infoModalText.textContent = `${item.title}: ${item.hint}`;
+            infoModal.classList.remove("hidden");
+            infoModal.classList.add("flex");
+          });
+          bodyLanguageGallery.appendChild(card);
         });
       }
 
       function finishTest() {
-        const totalYes = state.answers.filter(Boolean).length;
+        const totalYes = yesCount();
         const risk = evaluateRisk(totalYes);
 
         riskBadge.className = `mt-3 inline-block rounded-xl px-4 py-2 text-sm font-bold ${risk.badgeClass}`;
         riskBadge.textContent = `${risk.label} (${totalYes} Evet)`;
         riskSummary.textContent = risk.summary;
 
+        renderProfileAnalysis();
         renderCategoryBars();
         renderBodyLanguageGallery();
+
         test.classList.add("hidden");
         results.classList.remove("hidden");
       }
 
       function handleAnswer(answer, btn) {
         const isYes = answer === "yes";
-        const q = questions[state.currentIndex];
+        const q = state.questionDeck[state.currentIndex];
         state.answers.push(isYes);
 
         btn.classList.add("ring-2", isYes ? "ring-rose-300" : "ring-slate-300");
         setTimeout(() => {
           btn.classList.remove("ring-2", "ring-rose-300", "ring-slate-300");
-        }, 180);
+        }, 170);
 
         if (isYes) {
           state.categoryYesCounts[q.categoryId] += 1;
-          if (q.categoryId === "yirtici" && q.critical) {
-            openDangerModal();
-          }
+          triggerDarkPulse();
+          if (q.categoryId === "yirtici" && q.critical) openDangerModal();
         }
 
         state.currentIndex += 1;
-        if (state.currentIndex >= questions.length) {
+        if (state.currentIndex >= state.questionDeck.length) {
+          updateSilhouette();
           finishTest();
           return;
         }
@@ -620,14 +764,14 @@
       quickExitBtn.addEventListener("click", quickExit);
       clearAndExitBtn.addEventListener("click", clearAndExit);
       microInfoBtn.addEventListener("click", () => {
-        const q = questions[state.currentIndex];
-        openCategoryInfo(q.categoryIndex);
+        const q = state.questionDeck[state.currentIndex];
+        if (q) openExpressionInfo(q);
       });
 
       document.querySelectorAll(".openKadesBtn").forEach((btn) => btn.addEventListener("click", goToKades));
       document.querySelectorAll(".closeKadesModal").forEach((btn) => btn.addEventListener("click", closeKadesModal));
-
       document.querySelectorAll(".closeModal").forEach((btn) => btn.addEventListener("click", closeInfoModal));
+
       infoModal.addEventListener("click", (e) => {
         if (e.target === infoModal) closeInfoModal();
       });
@@ -647,8 +791,8 @@
           return;
         }
         if (e.key.toLowerCase() === "i" && state.started && !test.classList.contains("hidden")) {
-          const q = questions[state.currentIndex];
-          openCategoryInfo(q.categoryIndex);
+          const q = state.questionDeck[state.currentIndex];
+          if (q) openExpressionInfo(q);
         }
       });
     </script>
