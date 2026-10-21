@@ -5,88 +5,122 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>İlişki Güvenliği ve Risk Değerlendirme Testi</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 200% 50%; }
+      }
+      .progress-gradient {
+        background: linear-gradient(90deg, #fb7185, #f43f5e, #ec4899, #fb7185);
+        background-size: 200% 100%;
+        animation: gradientShift 2.8s linear infinite;
+      }
+      .face-line {
+        stroke: #cbd5e1;
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        fill: none;
+      }
+    </style>
   </head>
-  <body class="bg-slate-950 text-slate-100 min-h-screen">
+  <body class="min-h-screen bg-slate-950 text-slate-100">
     <header class="sticky top-0 z-40 border-b border-slate-800 bg-slate-950/95 backdrop-blur">
       <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-3">
         <p class="text-xs text-slate-300 sm:text-sm">Gizlilik modu: Yanıtlar yalnızca bu oturumda tutulur.</p>
         <div class="flex flex-wrap items-center gap-2">
-          <button id="quickExitBtn" class="rounded-lg bg-rose-600 px-3 py-2 text-xs font-bold uppercase tracking-wide text-white hover:bg-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-300 sm:text-sm">
+          <button id="quickExitBtn" class="rounded-xl bg-rose-600 px-3 py-2 text-xs font-bold uppercase tracking-wide text-white transition hover:bg-rose-500 focus:outline-none focus:ring-2 focus:ring-rose-300 sm:text-sm">
             Hızlı Çıkış (ESC)
           </button>
-          <a href="https://www.egm.gov.tr/kades" target="_blank" rel="noopener noreferrer" class="rounded-lg bg-indigo-600 px-3 py-2 text-xs font-semibold text-white hover:bg-indigo-500 sm:text-sm">KADES İndir</a>
-          <a href="tel:183" class="rounded-lg bg-amber-500 px-3 py-2 text-xs font-semibold text-slate-950 hover:bg-amber-400 sm:text-sm">Alo 183</a>
-          <a href="tel:112" class="rounded-lg bg-emerald-500 px-3 py-2 text-xs font-semibold text-slate-950 hover:bg-emerald-400 sm:text-sm">112 Acil</a>
+          <button type="button" class="openKadesBtn rounded-xl bg-indigo-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-indigo-500 sm:text-sm">KADES İndir</button>
+          <a href="tel:183" class="rounded-xl bg-amber-500 px-3 py-2 text-xs font-semibold text-slate-950 transition hover:bg-amber-400 sm:text-sm">Alo 183</a>
+          <a href="tel:112" class="rounded-xl bg-emerald-500 px-3 py-2 text-xs font-semibold text-slate-950 transition hover:bg-emerald-400 sm:text-sm">112 Acil</a>
         </div>
       </div>
     </header>
 
     <main class="mx-auto max-w-5xl px-4 py-8">
       <section id="landing" class="space-y-6">
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 shadow-lg">
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 shadow-2xl shadow-slate-950/40 transition hover:shadow-slate-900/70">
           <h1 class="text-2xl font-bold text-rose-300 sm:text-3xl">İlişkinizde Güvende misiniz?</h1>
           <p class="mt-3 text-sm text-slate-200 sm:text-base">Bu anonim değerlendirme, ilişkideki risk sinyallerini fark etmenize yardımcı olur. Yanıtlarınız cihazınızda tutulmaz, sayfa yenilenince tamamen silinir.</p>
-          <button id="startBtn" class="mt-5 rounded-xl bg-rose-600 px-5 py-3 font-semibold text-white hover:bg-rose-500">Anonim Teste Başla</button>
+          <button id="startBtn" class="mt-5 rounded-2xl bg-rose-600 px-5 py-3 font-semibold text-white shadow-lg shadow-rose-500/20 transition hover:scale-[1.01] hover:bg-rose-500">Anonim Teste Başla</button>
         </div>
 
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <article class="rounded-xl border border-slate-800 bg-slate-900 p-4">
+          <article class="rounded-2xl border border-slate-800 bg-slate-900/90 p-4 shadow-lg shadow-slate-950/30 transition hover:-translate-y-0.5">
             <h2 class="font-semibold text-fuchsia-300">Narsist</h2>
             <p class="mt-2 text-sm text-slate-300">Üstünlük, küçümseme ve sömürü davranışlarıyla kontrol kurmaya çalışır.</p>
           </article>
-          <article class="rounded-xl border border-slate-800 bg-slate-900 p-4">
+          <article class="rounded-2xl border border-slate-800 bg-slate-900/90 p-4 shadow-lg shadow-slate-950/30 transition hover:-translate-y-0.5">
             <h2 class="font-semibold text-cyan-300">Dengesiz</h2>
             <p class="mt-2 text-sm text-slate-300">Terk edilme korkusu ile yoğun iniş çıkışlar ve duygusal şantaj gösterebilir.</p>
           </article>
-          <article class="rounded-xl border border-slate-800 bg-slate-900 p-4">
+          <article class="rounded-2xl border border-slate-800 bg-slate-900/90 p-4 shadow-lg shadow-slate-950/30 transition hover:-translate-y-0.5">
             <h2 class="font-semibold text-amber-300">Paranoyak</h2>
             <p class="mt-2 text-sm text-slate-300">Aşırı kuşkuculuk, izleme, kıskançlık ve sosyal tecrit davranışları sergileyebilir.</p>
           </article>
-          <article class="rounded-xl border border-slate-800 bg-slate-900 p-4">
+          <article class="rounded-2xl border border-slate-800 bg-slate-900/90 p-4 shadow-lg shadow-slate-950/30 transition hover:-translate-y-0.5">
             <h2 class="font-semibold text-rose-300">Yırtıcı</h2>
             <p class="mt-2 text-sm text-slate-300">Vicdan yoksunluğu, tehdit ve tahakküm ile doğrudan hayati risk oluşturabilir.</p>
           </article>
         </div>
 
-        <div class="rounded-xl border border-amber-400/40 bg-amber-500/10 p-4 text-sm text-amber-100">
+        <div class="rounded-2xl border border-amber-400/40 bg-amber-500/10 p-4 text-sm text-amber-100 shadow-lg shadow-amber-900/10">
           <strong>Yasal Uyarı:</strong> Bu test tıbbi veya adli bir teşhis değildir; güvenlik ve farkındalık amacıyla hazırlanmış bir öz değerlendirme aracıdır.
         </div>
       </section>
 
       <section id="test" class="hidden space-y-4">
-        <div class="rounded-xl border border-slate-800 bg-slate-900 p-4">
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/90 p-4 shadow-xl shadow-slate-950/40">
           <div class="mb-3 flex items-center justify-between text-sm text-slate-300">
             <span id="questionCounter">Soru 1 / 64</span>
             <span id="categoryTitle" class="font-semibold text-slate-100"></span>
           </div>
           <div class="h-3 w-full overflow-hidden rounded-full bg-slate-800">
-            <div id="progressBar" class="h-full bg-rose-500 transition-all duration-300" style="width: 0%"></div>
+            <div id="progressBar" class="progress-gradient h-full rounded-full transition-all duration-300" style="width: 0%"></div>
           </div>
         </div>
 
-        <article class="rounded-2xl border border-slate-800 bg-slate-900/90 p-6 shadow-lg">
+        <article id="bodyLanguageCard" class="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 shadow-xl shadow-slate-950/30 transition-all duration-300">
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
+            <div id="expressionSvg" class="w-full max-w-[140px] rounded-2xl border border-slate-700 bg-slate-950/70 p-2"></div>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-widest text-rose-300">Beden Dili ve Mikro İfade İpucu</p>
+              <h3 id="expressionTitle" class="mt-1 text-base font-semibold text-slate-100"></h3>
+              <p id="expressionHint" class="mt-1 text-sm text-slate-300"></p>
+            </div>
+          </div>
+        </article>
+
+        <article class="rounded-2xl border border-slate-800 bg-slate-900/90 p-6 shadow-2xl shadow-slate-950/40">
           <p id="questionText" class="text-lg font-medium leading-relaxed text-slate-100"></p>
           <div class="mt-5 flex flex-wrap gap-3">
-            <button data-answer="yes" class="answerBtn rounded-xl bg-rose-600 px-6 py-3 font-semibold text-white hover:bg-rose-500">Evet</button>
-            <button data-answer="no" class="answerBtn rounded-xl bg-slate-700 px-6 py-3 font-semibold text-white hover:bg-slate-600">Hayır</button>
-            <button id="microInfoBtn" class="rounded-xl border border-slate-600 px-4 py-3 text-sm font-semibold text-slate-200 hover:border-slate-400">Mikro ifade bilgisi</button>
+            <button data-answer="yes" class="answerBtn rounded-2xl bg-rose-600 px-6 py-3 font-semibold text-white shadow-md shadow-rose-700/20 transition duration-200 hover:scale-[1.03] hover:bg-rose-500 active:scale-95 focus:outline-none focus:ring-2 focus:ring-rose-300">Evet</button>
+            <button data-answer="no" class="answerBtn rounded-2xl bg-slate-700 px-6 py-3 font-semibold text-white shadow-md shadow-slate-800/30 transition duration-200 hover:scale-[1.03] hover:bg-slate-600 active:scale-95 focus:outline-none focus:ring-2 focus:ring-slate-400">Hayır</button>
+            <button id="microInfoBtn" class="rounded-2xl border border-slate-600 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:border-slate-400 hover:bg-slate-800/60">Mikro ifade bilgisi</button>
           </div>
         </article>
       </section>
 
       <section id="results" class="hidden space-y-5">
-        <div class="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-lg">
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/90 p-6 shadow-2xl shadow-slate-950/40">
           <h2 class="text-2xl font-bold text-rose-200">Risk Değerlendirme Sonucu</h2>
-          <p id="riskBadge" class="mt-3 inline-block rounded-lg px-4 py-2 text-sm font-bold"></p>
+          <p id="riskBadge" class="mt-3 inline-block rounded-xl px-4 py-2 text-sm font-bold"></p>
           <p id="riskSummary" class="mt-3 text-sm text-slate-200"></p>
         </div>
 
-        <div class="rounded-2xl border border-slate-800 bg-slate-900 p-6">
+        <div class="rounded-2xl border border-slate-800 bg-slate-900/90 p-6 shadow-xl shadow-slate-950/30">
           <h3 class="text-lg font-semibold">Kategori Dağılımı</h3>
           <div id="categoryBars" class="mt-4 space-y-4"></div>
         </div>
 
-        <div class="rounded-2xl border border-emerald-400/40 bg-emerald-500/10 p-6">
+        <div class="rounded-2xl border border-sky-400/40 bg-sky-500/10 p-6 shadow-lg shadow-sky-900/10">
+          <h3 class="text-lg font-semibold text-sky-100">İlişki Beden Dili Rehberi</h3>
+          <div id="bodyLanguageGallery" class="mt-4 grid gap-3 sm:grid-cols-2"></div>
+        </div>
+
+        <div class="rounded-2xl border border-emerald-400/40 bg-emerald-500/10 p-6 shadow-lg shadow-emerald-900/10">
           <h3 class="text-lg font-semibold text-emerald-200">Ayrılık ve Güvenlik Eylem Planı</h3>
           <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-emerald-50">
             <li>Kimlik, pasaport, banka ve sağlık belgelerinin kopyalarını güvenli bir yerde saklayın.</li>
@@ -98,39 +132,116 @@
         </div>
 
         <div class="flex flex-wrap gap-3">
-          <button id="clearAndExitBtn" class="rounded-xl bg-rose-600 px-5 py-3 font-semibold text-white hover:bg-rose-500">Ekranı Temizle ve Çık</button>
-          <button id="restartBtn" class="rounded-xl bg-slate-700 px-5 py-3 font-semibold text-white hover:bg-slate-600">Testi Yeniden Başlat</button>
+          <button id="clearAndExitBtn" class="rounded-2xl bg-rose-600 px-5 py-3 font-semibold text-white transition hover:bg-rose-500">Ekranı Temizle ve Çık</button>
+          <button id="restartBtn" class="rounded-2xl bg-slate-700 px-5 py-3 font-semibold text-white transition hover:bg-slate-600">Testi Yeniden Başlat</button>
         </div>
       </section>
     </main>
 
     <div id="infoModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/80 p-4">
-      <div class="w-full max-w-md rounded-2xl border border-slate-700 bg-slate-900 p-6">
+      <div class="w-full max-w-md rounded-2xl border border-slate-700 bg-slate-900 p-6 shadow-2xl shadow-slate-950/40">
         <h3 class="text-lg font-semibold text-rose-200">Mikro İfade Bilgisi</h3>
         <p id="infoModalText" class="mt-3 text-sm text-slate-200"></p>
-        <button class="closeModal mt-5 rounded-lg bg-slate-700 px-4 py-2 font-semibold text-white hover:bg-slate-600">Kapat</button>
+        <button class="closeModal mt-5 rounded-xl bg-slate-700 px-4 py-2 font-semibold text-white transition hover:bg-slate-600">Kapat</button>
+      </div>
+    </div>
+
+    <div id="kadesModal" class="fixed inset-0 z-[55] hidden items-center justify-center bg-slate-950/80 p-4">
+      <div class="w-full max-w-md rounded-2xl border border-indigo-400/40 bg-slate-900 p-6 shadow-2xl shadow-indigo-950/40">
+        <h3 class="text-lg font-semibold text-indigo-200">KADES Uygulamasını İndirin</h3>
+        <p class="mt-3 text-sm text-slate-200">Masaüstünde mağaza yönlendirmesi için lütfen cihazınıza uygun seçeneği kullanın.</p>
+        <div class="mt-5 grid gap-2 sm:grid-cols-2">
+          <a href="https://play.google.com/store/apps/details?id=tr.gov.egm.kades" target="_blank" rel="noopener noreferrer" class="rounded-xl bg-emerald-600 px-4 py-3 text-center font-semibold text-white transition hover:bg-emerald-500">Google Play</a>
+          <a href="https://apps.apple.com/tr/app/kades/id1360309770" target="_blank" rel="noopener noreferrer" class="rounded-xl bg-slate-700 px-4 py-3 text-center font-semibold text-white transition hover:bg-slate-600">App Store</a>
+        </div>
+        <button class="closeKadesModal mt-4 w-full rounded-xl bg-indigo-600 px-4 py-2 font-semibold text-white transition hover:bg-indigo-500">Kapat</button>
       </div>
     </div>
 
     <div id="dangerModal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-rose-950/80 p-4">
-      <div class="w-full max-w-md rounded-2xl border border-rose-400 bg-slate-950 p-6">
+      <div class="w-full max-w-md rounded-2xl border border-rose-400 bg-slate-950 p-6 shadow-2xl shadow-rose-950/40">
         <h3 class="text-xl font-bold text-rose-300">Yüksek Hayati Tehlike!</h3>
         <p class="mt-3 text-sm text-rose-50">Lütfen güvenli bir yere geçin ve acil hatları arayın. Bu durum hayati risk işareti olabilir.</p>
         <div class="mt-5 grid gap-2 sm:grid-cols-2">
-          <a href="https://www.egm.gov.tr/kades" target="_blank" rel="noopener noreferrer" class="rounded-lg bg-indigo-600 px-4 py-3 text-center font-semibold text-white hover:bg-indigo-500">KADES İndir</a>
-          <a href="tel:112" class="rounded-lg bg-emerald-500 px-4 py-3 text-center font-semibold text-slate-950 hover:bg-emerald-400">112 Acil Ara</a>
+          <button type="button" class="openKadesBtn rounded-xl bg-indigo-600 px-4 py-3 text-center font-semibold text-white transition hover:bg-indigo-500">KADES İndir</button>
+          <a href="tel:112" class="rounded-xl bg-emerald-500 px-4 py-3 text-center font-semibold text-slate-950 transition hover:bg-emerald-400">112 Acil Ara</a>
         </div>
-        <button id="closeDangerModal" class="mt-4 w-full rounded-lg bg-slate-700 px-4 py-2 font-semibold text-white hover:bg-slate-600">Teste Dön</button>
+        <button id="closeDangerModal" class="mt-4 w-full rounded-xl bg-slate-700 px-4 py-2 font-semibold text-white transition hover:bg-slate-600">Teste Dön</button>
       </div>
     </div>
 
     <script>
+      const cues = {
+        contempt: {
+          title: "Küçümseme / Asimetrik Sırıtış",
+          hint: "Tek taraflı dudak kalkışı üstünlük ve küçümseme sinyali olabilir.",
+          svg: `
+            <svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true">
+              <circle cx="60" cy="60" r="48" class="fill-slate-900" stroke="#475569" stroke-width="2" />
+              <circle cx="43" cy="48" r="4" fill="#e2e8f0" />
+              <circle cx="77" cy="48" r="4" fill="#e2e8f0" />
+              <path class="face-line" d="M34 38h20" />
+              <path class="face-line" d="M66 38h20" />
+              <path class="face-line" d="M38 77c7 4 16 5 26 2" />
+              <path class="face-line" d="M64 79c7 0 12-4 18-10" />
+            </svg>
+          `
+        },
+        repressedAnger: {
+          title: "Bastırılmış Öfke",
+          hint: "Sıkılmış dudak ve çatık kaşlar, bastırılan gerilim ve kontrol sinyali verebilir.",
+          svg: `
+            <svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true">
+              <circle cx="60" cy="60" r="48" class="fill-slate-900" stroke="#475569" stroke-width="2" />
+              <path class="face-line" d="M32 44l18-6" />
+              <path class="face-line" d="M88 44l-18-6" />
+              <circle cx="44" cy="52" r="4" fill="#e2e8f0" />
+              <circle cx="76" cy="52" r="4" fill="#e2e8f0" />
+              <path class="face-line" d="M43 79h34" />
+              <path class="face-line" d="M43 83h34" />
+            </svg>
+          `
+        },
+        fakeSmile: {
+          title: "Sahte Maske Gülüş",
+          hint: "Ağız gülüyor gibi görünürken gözler sabit kalıyorsa duygu uyumsuzluğu olabilir.",
+          svg: `
+            <svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true">
+              <circle cx="60" cy="60" r="48" class="fill-slate-900" stroke="#475569" stroke-width="2" />
+              <circle cx="43" cy="50" r="3.5" fill="#e2e8f0" />
+              <circle cx="77" cy="50" r="3.5" fill="#e2e8f0" />
+              <path class="face-line" d="M33 43h20" />
+              <path class="face-line" d="M67 43h20" />
+              <path class="face-line" d="M36 75c8 7 40 7 48 0" />
+              <path class="face-line" d="M40 75c6-2 34-2 40 0" />
+            </svg>
+          `
+        },
+        predatoryStare: {
+          title: "Tehditkar Bakış",
+          hint: "Donuk, uzun ve delici bakışlar baskı kurma veya tehdit davranışıyla ilişkili olabilir.",
+          svg: `
+            <svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true">
+              <circle cx="60" cy="60" r="48" class="fill-slate-900" stroke="#475569" stroke-width="2" />
+              <ellipse cx="43" cy="52" rx="11" ry="7" fill="#0f172a" stroke="#cbd5e1" stroke-width="2" />
+              <ellipse cx="77" cy="52" rx="11" ry="7" fill="#0f172a" stroke="#cbd5e1" stroke-width="2" />
+              <circle cx="43" cy="52" r="4" fill="#f8fafc" />
+              <circle cx="77" cy="52" r="4" fill="#f8fafc" />
+              <path class="face-line" d="M33 43h20" />
+              <path class="face-line" d="M67 43h20" />
+              <path class="face-line" d="M44 80c10 3 22 3 32 0" />
+            </svg>
+          `
+        }
+      };
+
       const categories = [
         {
           id: "narsist",
           title: "Narsist Örüntü (Üstünlük ve Sömürü)",
           color: "bg-fuchsia-500",
           micro: "Küçümseme (Tek taraflı dudak kalkması / Asimetrik sırıtış)",
+          cueKey: "contempt",
           questions: [
             "Partneriniz sık sık sizi değersiz veya yetersiz hissettiren sözler söylüyor mu?",
             "Kendi ihtiyaçlarını sürekli sizinkilerin önüne koyuyor mu?",
@@ -155,6 +266,7 @@
           title: "Duygusal Olarak Dengesiz Örüntü (Terk Edilme Korkusu ve Şantaj)",
           color: "bg-cyan-500",
           micro: "Duygusal Çalkantı & Sahte Gülüş",
+          cueKey: "fakeSmile",
           questions: [
             "Kısa sürede aşırı yakınlık ile uzaklaşma arasında gidip geliyor mu?",
             "Ayrılma ihtimalinden bahsedildiğinde panik veya öfke patlaması yaşıyor mu?",
@@ -179,6 +291,7 @@
           title: "Paranoyak Örüntü (Kuşkuculuk, Aşırı Kontrol ve Tecrit)",
           color: "bg-amber-500",
           micro: "Bastırılmış Öfke (Dudak sıkışması, çene kilitlenmesi)",
+          cueKey: "repressedAnger",
           questions: [
             "Telefonunuzu, sosyal medyanızı veya mesajlarınızı izinsiz kontrol ediyor mu?",
             "Nerede olduğunuzu sürekli konum paylaşımıyla doğrulamanızı istiyor mu?",
@@ -203,6 +316,7 @@
           title: "Yırtıcı / Antisosyal Örüntü (Vicdan Yoksunluğu, Tehdit ve Tahakküm)",
           color: "bg-rose-600",
           micro: "Tehditkar / Soğuk Delici Bakış",
+          cueKey: "predatoryStare",
           questions: [
             { text: "Size veya sevdiklerinize zarar vereceğini açıkça söyledi mi?", critical: true },
             { text: "Öldürme veya ağır yaralama tehdidinde bulundu mu?", critical: true },
@@ -260,6 +374,11 @@
         shownCategoryInfo: new Set()
       };
 
+      const STORE_LINKS = {
+        android: "https://play.google.com/store/apps/details?id=tr.gov.egm.kades",
+        ios: "https://apps.apple.com/tr/app/kades/id1360309770"
+      };
+
       const landing = document.getElementById("landing");
       const test = document.getElementById("test");
       const results = document.getElementById("results");
@@ -277,13 +396,55 @@
       const microInfoBtn = document.getElementById("microInfoBtn");
       const dangerModal = document.getElementById("dangerModal");
       const closeDangerModal = document.getElementById("closeDangerModal");
+      const kadesModal = document.getElementById("kadesModal");
 
       const riskBadge = document.getElementById("riskBadge");
       const riskSummary = document.getElementById("riskSummary");
       const categoryBars = document.getElementById("categoryBars");
+      const expressionSvg = document.getElementById("expressionSvg");
+      const expressionTitle = document.getElementById("expressionTitle");
+      const expressionHint = document.getElementById("expressionHint");
+      const bodyLanguageGallery = document.getElementById("bodyLanguageGallery");
 
       function quickExit() {
+        try {
+          window.history.replaceState({}, "", window.location.pathname);
+        } catch (_) {}
+        document.cookie.split(";").forEach((item) => {
+          const key = item.split("=")[0]?.trim();
+          if (key) document.cookie = `${key}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+        });
         window.location.replace("https://www.google.com");
+      }
+
+      function detectDevice() {
+        const ua = navigator.userAgent || navigator.vendor || window.opera || "";
+        if (/android/i.test(ua)) return "android";
+        if (/iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)) return "ios";
+        return "desktop";
+      }
+
+      function openKadesModal() {
+        kadesModal.classList.remove("hidden");
+        kadesModal.classList.add("flex");
+      }
+
+      function closeKadesModal() {
+        kadesModal.classList.add("hidden");
+        kadesModal.classList.remove("flex");
+      }
+
+      function goToKades() {
+        const device = detectDevice();
+        if (device === "android") {
+          window.location.href = STORE_LINKS.android;
+          return;
+        }
+        if (device === "ios") {
+          window.location.href = STORE_LINKS.ios;
+          return;
+        }
+        openKadesModal();
       }
 
       function resetState() {
@@ -294,9 +455,33 @@
         state.shownCategoryInfo = new Set();
       }
 
+      function renderBodyLanguageCard(categoryIndex) {
+        const category = categories[categoryIndex];
+        const cue = cues[category.cueKey];
+        expressionTitle.textContent = cue.title;
+        expressionHint.textContent = cue.hint;
+        expressionSvg.innerHTML = cue.svg;
+      }
+
+      function renderBodyLanguageGallery() {
+        bodyLanguageGallery.innerHTML = "";
+        ["contempt", "repressedAnger", "fakeSmile", "predatoryStare"].forEach((key) => {
+          const cue = cues[key];
+          const card = document.createElement("article");
+          card.className = "rounded-2xl border border-slate-700/70 bg-slate-900/90 p-3 shadow-lg shadow-slate-950/30";
+          card.innerHTML = `
+            <div class="rounded-xl border border-slate-700 bg-slate-950/80 p-2">${cue.svg}</div>
+            <h4 class="mt-2 text-sm font-semibold text-slate-100">${cue.title}</h4>
+            <p class="mt-1 text-xs text-slate-300">${cue.hint}</p>
+          `;
+          bodyLanguageGallery.appendChild(card);
+        });
+      }
+
       function openCategoryInfo(categoryIndex) {
         const category = categories[categoryIndex];
-        infoModalText.textContent = `${category.title}: ${category.micro}`;
+        const cue = cues[category.cueKey];
+        infoModalText.textContent = `${category.title}: ${category.micro}. İpucu: ${cue.hint}`;
         infoModal.classList.remove("hidden");
         infoModal.classList.add("flex");
       }
@@ -322,6 +507,7 @@
         categoryTitle.textContent = q.categoryTitle;
         questionText.textContent = q.text;
         progressBar.style.width = `${((state.currentIndex + 1) / questions.length) * 100}%`;
+        renderBodyLanguageCard(q.categoryIndex);
 
         if (q.idxInCategory === 1 && !state.shownCategoryInfo.has(q.categoryId)) {
           state.shownCategoryInfo.add(q.categoryId);
@@ -363,7 +549,7 @@
               <span>${yesCount} / 16</span>
             </div>
             <div class="h-3 w-full overflow-hidden rounded-full bg-slate-800">
-              <div class="h-full ${category.color}" style="width:${percent}%"></div>
+              <div class="h-full ${category.color} transition-all duration-500" style="width:${percent}%"></div>
             </div>
           `;
           categoryBars.appendChild(wrapper);
@@ -374,19 +560,25 @@
         const totalYes = state.answers.filter(Boolean).length;
         const risk = evaluateRisk(totalYes);
 
-        riskBadge.className = `mt-3 inline-block rounded-lg px-4 py-2 text-sm font-bold ${risk.badgeClass}`;
+        riskBadge.className = `mt-3 inline-block rounded-xl px-4 py-2 text-sm font-bold ${risk.badgeClass}`;
         riskBadge.textContent = `${risk.label} (${totalYes} Evet)`;
         riskSummary.textContent = risk.summary;
 
         renderCategoryBars();
+        renderBodyLanguageGallery();
         test.classList.add("hidden");
         results.classList.remove("hidden");
       }
 
-      function handleAnswer(answer) {
+      function handleAnswer(answer, btn) {
         const isYes = answer === "yes";
         const q = questions[state.currentIndex];
         state.answers.push(isYes);
+
+        btn.classList.add("ring-2", isYes ? "ring-rose-300" : "ring-slate-300");
+        setTimeout(() => {
+          btn.classList.remove("ring-2", "ring-rose-300", "ring-slate-300");
+        }, 180);
 
         if (isYes) {
           state.categoryYesCounts[q.categoryId] += 1;
@@ -424,7 +616,7 @@
 
       startBtn.addEventListener("click", startTest);
       restartBtn.addEventListener("click", restartTest);
-      answerBtns.forEach((btn) => btn.addEventListener("click", () => handleAnswer(btn.dataset.answer)));
+      answerBtns.forEach((btn) => btn.addEventListener("click", () => handleAnswer(btn.dataset.answer, btn)));
       quickExitBtn.addEventListener("click", quickExit);
       clearAndExitBtn.addEventListener("click", clearAndExit);
       microInfoBtn.addEventListener("click", () => {
@@ -432,9 +624,16 @@
         openCategoryInfo(q.categoryIndex);
       });
 
+      document.querySelectorAll(".openKadesBtn").forEach((btn) => btn.addEventListener("click", goToKades));
+      document.querySelectorAll(".closeKadesModal").forEach((btn) => btn.addEventListener("click", closeKadesModal));
+
       document.querySelectorAll(".closeModal").forEach((btn) => btn.addEventListener("click", closeInfoModal));
       infoModal.addEventListener("click", (e) => {
         if (e.target === infoModal) closeInfoModal();
+      });
+
+      kadesModal.addEventListener("click", (e) => {
+        if (e.target === kadesModal) closeKadesModal();
       });
 
       closeDangerModal.addEventListener("click", closeDanger);
