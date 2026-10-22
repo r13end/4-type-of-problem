@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="tr">
   <head>
@@ -115,9 +116,10 @@
         <article class="rounded-2xl border border-slate-800 bg-slate-900/90 p-5 shadow-xl shadow-slate-950/30">
           <div class="flex flex-col gap-4 lg:flex-row lg:items-start">
             <div id="silhouetteWrap" class="mx-auto w-full max-w-[220px] transition-all duration-300">
-              <div id="silhouette" class="relative overflow-hidden rounded-[38px] border border-slate-700 bg-gradient-to-b from-slate-700/60 via-slate-800/60 to-indigo-900/50 p-4 opacity-30 transition-all duration-500">
+              <div id="silhouette" class="relative overflow-hidden rounded-[38px] border border-slate-700 bg-gradient-to-b from-slate-700/60 via-slate-800/60 to-indigo-900/50 p-4 opacity-30 transition-all duration-500 flex items-center justify-center min-h-[190px]">
                 <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.2),_transparent_58%)]"></div>
-                <svg viewBox="0 0 180 180" class="relative z-10 mx-auto h-44 w-full max-w-[160px] blur-[0.45px]" aria-hidden="true">
+                <img id="silhouetteImg" src="./assets/silhouette-predator.png" alt="Siluet" class="relative z-10 mx-auto h-44 w-full max-w-[160px] object-contain transition-all duration-700 opacity-30 filter drop-shadow" onerror="this.style.display='none'; document.getElementById('fallbackSilhouetteSvg').style.display='block';" />
+                <svg id="fallbackSilhouetteSvg" viewBox="0 0 180 180" class="relative z-10 mx-auto h-44 w-full max-w-[160px] blur-[0.45px] hidden" aria-hidden="true">
                   <ellipse cx="90" cy="62" rx="42" ry="48" fill="rgba(15,23,42,0.55)"></ellipse>
                   <path d="M42 160c8-38 31-58 48-58 18 0 41 20 48 58" fill="rgba(15,23,42,0.68)"></path>
                 </svg>
@@ -151,7 +153,14 @@
 
         <div class="rounded-2xl border border-slate-800 bg-slate-900/90 p-6 shadow-xl shadow-slate-950/30">
           <h3 class="text-lg font-semibold">Baskın ve Destekleyici Profil Analizi</h3>
-          <p id="profilePair" class="mt-3 rounded-xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100"></p>
+          <div class="mt-4 flex flex-col sm:flex-row items-center gap-4">
+            <div class="w-24 h-24 rounded-2xl bg-slate-950 border border-slate-800 flex items-center justify-center p-2 shrink-0 overflow-hidden shadow-lg">
+              <img id="dominantSilhouetteImg" src="" alt="Baskın Profil Silueti" class="w-full h-full object-contain filter drop-shadow-md" onerror="this.style.display='none';" />
+            </div>
+            <div class="flex-1 w-full min-w-0">
+              <p id="profilePair" class="rounded-xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-sm text-slate-100"></p>
+            </div>
+          </div>
           <div id="scenarioCard" class="mt-3 rounded-xl border border-rose-400/40 bg-rose-500/10 p-4 text-sm text-rose-50"></div>
         </div>
 
@@ -227,44 +236,59 @@
       const microExpressions = {
         contempt: {
           title: "Küçümseme",
+          image: "./assets/micro-contempt.png",
           hint: "Asimetrik sırıtış ve tek kaşın hafif yükselmesi üstünlük kurma niyetini gösterebilir.",
           svg: `<svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true"><ellipse cx="60" cy="60" rx="45" ry="48" class="mono-face"/><path class="mono-face" d="M33 42c7-5 14-5 22-2"/><path class="mono-face" d="M66 40c8-2 16-1 22 3"/><ellipse cx="43" cy="54" rx="6" ry="4" class="mono-face"/><ellipse cx="78" cy="54" rx="6" ry="4" class="mono-face"/><path class="mono-face" d="M40 80c7 3 13 3 19-1"/><path class="mono-face" d="M59 80c6 0 12-2 19-8"/></svg>`
         },
         arrogance: {
           title: "Kibirli Bakış",
+          image: "./assets/micro-arrogance.png",
           hint: "Yarım kapalı gözler, yukarı kalkık çene ve düz dudak çizgisi mesafe koyan kibirli bir ifade yaratır.",
           svg: `<svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true"><ellipse cx="60" cy="60" rx="45" ry="48" class="mono-face"/><path class="mono-face" d="M33 44h22"/><path class="mono-face" d="M65 44h22"/><path class="mono-face" d="M37 54h14"/><path class="mono-face" d="M69 54h14"/><path class="mono-face" d="M40 78h40"/><path class="mono-face" d="M46 90c9 3 19 3 28 0"/></svg>`
         },
         fakeSmile: {
           title: "Maske Gülüş",
+          image: "./assets/micro-fake-smile.png",
           hint: "Gözler kıpırtısızken gerilmiş bir gülüş, gerçek duygunun saklanmaya çalışıldığını düşündürebilir.",
           svg: `<svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true"><ellipse cx="60" cy="60" rx="45" ry="48" class="mono-face"/><circle cx="43" cy="52" r="4" class="mono-face"/><circle cx="77" cy="52" r="4" class="mono-face"/><path class="mono-face" d="M34 41h18"/><path class="mono-face" d="M68 41h18"/><path class="mono-face" d="M35 76c9 7 41 7 50 0"/><path class="mono-face" d="M38 75h44"/></svg>`
         },
         desperateAnger: {
           title: "Patlama Öncesi Çaresiz Öfke",
+          image: "./assets/micro-desperate-anger.png",
           hint: "Kaş iç uçlarının yükselip birleşmesi ve ağız köşelerinin düşmesi baskılanan yoğun öfkeye işaret edebilir.",
           svg: `<svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true"><ellipse cx="60" cy="60" rx="45" ry="48" class="mono-face"/><path class="mono-face" d="M33 45l16-8"/><path class="mono-face" d="M87 45l-16-8"/><path class="mono-face" d="M45 52h10"/><path class="mono-face" d="M65 52h10"/><path class="mono-face" d="M39 82c7-6 15-8 22-7"/><path class="mono-face" d="M59 75c7-1 15 1 22 7"/></svg>`
         },
         suspiciousGlare: {
           title: "Kuşkucu Yan Bakış",
+          image: "./assets/micro-suspicious.png",
           hint: "Yana kayan dar bakış, çatık kaşlar ve alın çizgileri kuşkucu zihniyetle ilişkilendirilebilir.",
           svg: `<svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true"><ellipse cx="60" cy="60" rx="45" ry="48" class="mono-face"/><path class="mono-face" d="M35 42c8-4 15-4 22-1"/><path class="mono-face" d="M64 43c8-4 14-4 22-2"/><path class="mono-face" d="M38 55h13"/><path class="mono-face" d="M69 55h13"/><line x1="57" y1="30" x2="57" y2="38" class="mono-face"/><line x1="64" y1="30" x2="64" y2="38" class="mono-face"/><path class="mono-face" d="M42 80c10 2 26 2 36 0"/></svg>`
         },
         compressedLips: {
           title: "Kilitlenmiş Çene",
+          image: "./assets/micro-clenched-jaw.png",
           hint: "Sıkıca kapanmış dudak çizgisi ve sert çene hattı bastırılmış çatışma sinyali verebilir.",
           svg: `<svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true"><ellipse cx="60" cy="60" rx="45" ry="48" class="mono-face"/><path class="mono-face" d="M34 44h20"/><path class="mono-face" d="M66 44h20"/><ellipse cx="44" cy="54" rx="5" ry="4" class="mono-face"/><ellipse cx="76" cy="54" rx="5" ry="4" class="mono-face"/><path class="mono-face" d="M39 78h42"/><path class="mono-face" d="M36 86c8 5 39 5 48 0"/></svg>`
         },
         predatoryStare: {
           title: "Kırpmasız Avcı Bakışı",
+          image: "./assets/micro-predatory-stare.png",
           hint: "Göz çevresinde belirgin beyazlıkla donuk, kırpmasız bakış tehdit ve tahakküm amacı taşıyabilir.",
           svg: `<svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true"><ellipse cx="60" cy="60" rx="45" ry="48" class="mono-face"/><path class="mono-face" d="M33 40h20"/><path class="mono-face" d="M67 40h20"/><circle cx="43" cy="54" r="10" class="mono-face"/><circle cx="77" cy="54" r="10" class="mono-face"/><circle cx="43" cy="54" r="4" class="mono-face"/><circle cx="77" cy="54" r="4" class="mono-face"/><path class="mono-face" d="M43 80h34"/></svg>`
         },
         sinisterSmirk: {
           title: "Tehditkar Donuk Sırıtış",
+          image: "./assets/micro-sinister-smirk.png",
           hint: "Duygusuz gözlerle eşleşen çok hafif düz sırıtış, hesaplı bir tehdit duygusu oluşturabilir.",
           svg: `<svg viewBox="0 0 120 120" class="h-28 w-full" aria-hidden="true"><ellipse cx="60" cy="60" rx="45" ry="48" class="mono-face"/><path class="mono-face" d="M35 43h18"/><path class="mono-face" d="M67 43h18"/><path class="mono-face" d="M40 54h10"/><path class="mono-face" d="M70 54h10"/><path class="mono-face" d="M38 79c10 0 27 0 43-2"/><path class="mono-face" d="M44 84c9 1 20 1 30-1"/></svg>`
         }
+      };
+
+      const SILHOUETTE_FILES = {
+        narsist: "./assets/silhouette-narcissist.png",
+        dengesiz: "./assets/silhouette-unstable.png",
+        paranoyak: "./assets/silhouette-paranoid.png",
+        yirtici: "./assets/silhouette-predator.png"
       };
 
       const expressionFlow = [
@@ -535,16 +559,20 @@
         silhouette.className = "relative overflow-hidden rounded-[38px] border p-4 transition-all duration-500";
         silhouetteWrap.classList.remove("drop-shadow-2xl", "drop-shadow-xl");
 
+        const silImg = document.getElementById("silhouetteImg");
         if (yes <= 5) {
           silhouette.classList.add("border-slate-700", "bg-gradient-to-b", "from-slate-700/60", "via-slate-800/60", "to-violet-900/40", "opacity-30");
+          if (silImg) silImg.className = "relative z-10 mx-auto h-44 w-full max-w-[160px] object-contain transition-all duration-700 opacity-25 blur-sm scale-90";
           tensionBar.className = "h-full bg-gradient-to-r from-slate-500 via-indigo-700 to-slate-900 transition-all duration-500";
         } else if (yes <= 15) {
           silhouette.classList.add("border-slate-600", "bg-gradient-to-b", "from-slate-700/90", "via-slate-900", "to-slate-950", "opacity-80", "shadow-2xl", "shadow-slate-950/75");
           silhouetteWrap.classList.add("drop-shadow-xl");
+          if (silImg) silImg.className = "relative z-10 mx-auto h-44 w-full max-w-[160px] object-contain transition-all duration-700 opacity-65 blur-[1px] scale-100 filter drop-shadow";
           tensionBar.className = "h-full bg-gradient-to-r from-slate-600 via-slate-900 to-indigo-950 transition-all duration-500";
         } else {
           silhouette.classList.add("border-slate-950", "bg-slate-950", "opacity-100", "shadow-2xl", "shadow-slate-950/95");
           silhouetteWrap.classList.add("drop-shadow-2xl");
+          if (silImg) silImg.className = "relative z-10 mx-auto h-44 w-full max-w-[160px] object-contain transition-all duration-700 opacity-95 blur-0 scale-105 filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.95)]";
           tensionBar.className = "h-full bg-gradient-to-r from-slate-800 via-slate-900 to-black transition-all duration-500";
         }
       }
@@ -561,18 +589,26 @@
         return expressionFlow[idx];
       }
 
+      function renderExpressionVisual(container, expression) {
+        container.innerHTML = `
+          <div class="flex items-center justify-center h-28 w-full overflow-hidden">
+            <img src="${expression.image}" alt="${expression.title}" class="max-h-full max-w-full object-contain filter drop-shadow" onerror="this.outerHTML=\`${expression.svg.replace(/`/g, '\\`')}\`;" />
+          </div>
+        `;
+      }
+
       function renderExpression(q) {
         const key = pickExpressionForQuestion(q);
         const expression = microExpressions[key];
         expressionTitle.textContent = expression.title;
         expressionHint.textContent = expression.hint;
-        expressionSvg.innerHTML = expression.svg;
+        renderExpressionVisual(expressionSvg, expression);
       }
 
       function openExpressionInfo(q) {
         const key = pickExpressionForQuestion(q);
         const expression = microExpressions[key];
-        infoModalSvg.innerHTML = expression.svg;
+        renderExpressionVisual(infoModalSvg, expression);
         infoModalText.textContent = `${q.categoryShort}: ${expression.title}. ${expression.hint}`;
         infoModal.classList.remove("hidden");
         infoModal.classList.add("flex");
@@ -639,6 +675,12 @@
         const support = ranked[1];
         profilePair.textContent = `Baskın Profil: ${dominant.category.shortLabel} (${dominant.count}/16) • Destekleyici Profil: ${support.category.shortLabel} (${support.count}/16)`;
 
+        const domImg = document.getElementById("dominantSilhouetteImg");
+        if (domImg) {
+          domImg.src = SILHOUETTE_FILES[dominant.category.id] || "./assets/silhouette-predator.png";
+          domImg.style.display = "block";
+        }
+
         const scenarioKey = `${dominant.category.id}+${support.category.id}`;
         scenarioCard.textContent =
           hybridScenarios[scenarioKey] ||
@@ -684,12 +726,14 @@
           card.type = "button";
           card.className = "text-left rounded-2xl border border-slate-700/70 bg-slate-900/90 p-3 shadow-lg shadow-slate-950/30 transition hover:-translate-y-0.5 hover:border-sky-300/60";
           card.innerHTML = `
-            <div class="rounded-xl border border-slate-700 bg-white/95 p-2">${item.svg}</div>
+            <div class="rounded-xl border border-slate-700 bg-slate-950 p-2 flex items-center justify-center h-28 overflow-hidden">
+              <img src="${item.image}" alt="${item.title}" class="max-h-full max-w-full object-contain filter drop-shadow" onerror="this.outerHTML=\`${item.svg.replace(/`/g, '\\`')}\`;" />
+            </div>
             <h4 class="mt-2 text-sm font-semibold text-slate-100">${item.title}</h4>
             <p class="mt-1 text-xs text-slate-300">${item.hint}</p>
           `;
           card.addEventListener("click", () => {
-            infoModalSvg.innerHTML = item.svg;
+            renderExpressionVisual(infoModalSvg, item);
             infoModalText.textContent = `${item.title}: ${item.hint}`;
             infoModal.classList.remove("hidden");
             infoModal.classList.add("flex");
@@ -798,3 +842,4 @@
     </script>
   </body>
 </html>
+```
